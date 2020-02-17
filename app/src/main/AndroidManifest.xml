@@ -1,0 +1,15 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="c.cx900">
+    <application
+        android:icon="@drawable/i"
+        android:label="ccx"
+        android:theme="@android:style/Theme.Light">
+        <activity android:name="ac">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <activity android:name="ac2"/>
+    </application>
+</manifest>
