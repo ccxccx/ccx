@@ -1,4 +1,6 @@
 package c.cx900;
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -12,6 +14,8 @@ import android.widget.*;
 import android.app.*;
 import android.os.*;
 
+import androidx.core.app.ActivityCompat;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,20 +24,35 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class ac2 extends Activity
+public class sy2 extends Activity
 {
 	//文件夹a，文件a2
 	List<String> a,a2;
 	Comparator<String> c2;
-	Button b2;
+	Button b,b2;
 	ClipboardManager c;ba d;
 	protected void onCreate(Bundle bu)
 	{
-		super.onCreate(bu);c=(ClipboardManager)getSystemService(CLIPBOARD_SERVICE);
+		super.onCreate(bu);
+		//若想获取文件列表，则必须要有以下的权限：<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+		//而且READ_EXTERNAL_STORAGE的权限必须动态申请才行，记!!!!!!!!!!!!小心!!!!!!!!!!!
+		ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},0);
+	}
+	public void onRequestPermissionsResult(int requestCode,String[]permissions,int[]grantResults)
+	{
+		c=(ClipboardManager)getSystemService(CLIPBOARD_SERVICE);
 		LinearLayout l=new LinearLayout(this);setContentView(l);
 		l.setOrientation(LinearLayout.VERTICAL);final EditText e=new EditText(this);
 		l.addView(e);
 		e.setText(Environment.getExternalStorageDirectory()+"");
+		e.setOnEditorActionListener(new TextView.OnEditorActionListener()
+		{
+			public boolean onEditorAction(TextView tv,int i,KeyEvent k)
+			{
+				b.callOnClick();
+				return true;
+			}
+		});
 //用e.clearFocus();无法清除默认焦点
 //用InputMethodManager
 //的hideSoftInputFromWindow()也不行!!!!!!
@@ -43,7 +62,7 @@ public class ac2 extends Activity
 //才能防止EditText默认获得焦点
 //对比!!!!!!!!!!!!!!!小心!!!!!!!!!!!!!!!!!!!!
 		l.setFocusableInTouchMode(true);
-		Button b=new Button(this);l.addView(b);
+		l.addView(b=new Button(this));
 		b.setText("进入该文件夹");
 		b.setOnClickListener(new View.OnClickListener()
 		{public void onClick(View v){f(e.getText()+"");}});

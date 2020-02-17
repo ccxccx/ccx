@@ -1,18 +1,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="c.cx900">
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    package="c.cx">
     <application
         android:icon="@drawable/i"
-        android:label="ccx"
+        android:label=""
         android:theme="@android:style/Theme.Light.NoTitleBar">
-        <activity android:name="sy2">
+        <activity android:name="ac">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name="ac2"/>
-        <activity android:name="ac3"/>
-        <activity android:name="ac4"/>
     </application>
 </manifest>
