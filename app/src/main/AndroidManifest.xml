@@ -3,7 +3,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <application
         android:icon="@drawable/i"
-        android:label="ccx"
+        android:label="各种功能"
         android:theme="@android:style/Theme.Light.NoTitleBar">
         <activity android:name="sy2">
             <intent-filter>
@@ -14,5 +14,6 @@
         <activity android:name="ac2"/>
         <activity android:name="ac3"/>
         <activity android:name="ac4"/>
+        <activity android:name="ac5"/>
     </application>
 </manifest>
