@@ -11,7 +11,7 @@ import java.util.List;
 
 public class ac extends Activity
 {
-	Class[]a={  ac2.class,   ac3.class,   ac4.class,  ac5.class};
+	Class[]a={  ac2.class,   ac3.class,  ac4.class,   ac5.class};
 	String[]s={"文件浏览器","音乐播放器","视频播放器","发送/接收文件"};
 	protected void onCreate(Bundle bu)
 	{
