@@ -3,6 +3,8 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.*;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
@@ -26,6 +28,7 @@ public class ac2 extends Activity implements View.OnClickListener
 	List<String>l=new ArrayList<>(),l2,l6;TreeSet<Integer>h=new TreeSet<>();
 	TextView t,t2;int j,w,n,n2,d;ba a;Button b,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11;
 	LinearLayout l3,l4,l5,l7,l8;boolean d2;String f,s2;EditText e,e2;GridView g;
+	ImageView i2;
 	void t(String s){t.setText(++j+"："+s);}
 	public void onBackPressed()
 	{
@@ -38,13 +41,12 @@ public class ac2 extends Activity implements View.OnClickListener
 		}
 		else if(d==2)
 		{
-			d=0;
 			//这里不能用e2.getText().equals(s2)或s2.equals(e2.getText())
 			//必须用s2.equals(e2.getText()+"")，易错难发现!!!!!!!!!!!!!小心!!!!!!!!!!!!!
 			//为了防止出错，以后统一用s.equals(b.getText()+"")，记!!!!!!!!!!!!!小心!!!!!!!!!!!!!
 			if(s2.equals(e2.getText()+""))
 			{
-				f(new File(t2.getText()+"").getParent());
+				d=0;f(new File(t2.getText()+"").getParent());
 				e2.setVisibility(View.INVISIBLE);l7.setVisibility(View.VISIBLE);
 			}
 			else
@@ -55,20 +57,23 @@ public class ac2 extends Activity implements View.OnClickListener
 							public void onClick(DialogInterface dialog,int which)
 							{
 								s2f(e2.getText()+"",t2.getText()+"");
-//								f(new File(t2.getText()+"").getParent());
-//								e2.setVisibility(View.INVISIBLE);l7.setVisibility(View.VISIBLE);
+								d=0;f(new File(t2.getText()+"").getParent());
+								e2.setVisibility(View.INVISIBLE);l7.setVisibility(View.VISIBLE);
 							}
 						}).setNegativeButton("否",new DialogInterface.OnClickListener()
 						{
 							public void onClick(DialogInterface dialog,int which)
 							{
-		//								f(new File(t2.getText()+"").getParent());
-		//								e2.setVisibility(View.INVISIBLE);l7.setVisibility(View.VISIBLE);
+								d=0;f(new File(t2.getText()+"").getParent());
+								e2.setVisibility(View.INVISIBLE);l7.setVisibility(View.VISIBLE);
 							}
 						}).show();
-				f(new File(t2.getText()+"").getParent());
-				e2.setVisibility(View.INVISIBLE);l7.setVisibility(View.VISIBLE);
 			}
+		}
+		else if(d==3)
+		{
+			d=0;f(new File(t2.getText()+"").getParent());
+			i2.setVisibility(View.INVISIBLE);l7.setVisibility(View.VISIBLE);
 		}
 	}
 	protected void onCreate(Bundle bu)
@@ -109,6 +114,7 @@ public class ac2 extends Activity implements View.OnClickListener
 		g=new GridView(this);l7.addView(g);g.setAdapter(a=new ba(this));g.setNumColumns(5);
 		RelativeLayout.LayoutParams p5=new RelativeLayout.LayoutParams(-1,-1);p5.addRule(RelativeLayout.BELOW,1);
 		r.addView(e2=new EditText(this),p5);e2.setVisibility(View.INVISIBLE);e2.setGravity(Gravity.TOP);
+		r.addView(i2=new ImageView(this),p5);i2.setVisibility(View.INVISIBLE);
 		f(Environment.getExternalStorageDirectory()+"");
 		RelativeLayout.LayoutParams p=new RelativeLayout.LayoutParams(-1,-2);p.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
 		l3=new LinearLayout(this);r.addView(l3,p);
@@ -360,13 +366,13 @@ public class ac2 extends Activity implements View.OnClickListener
 				String t=i==-1?"":f.getName().substring(i+1);
 				if(t.equals("")||t.equals("txt"))
 				{
-					t2.setText(s);e2.setText(s2=f2s(s));
-					e2.setVisibility(View.VISIBLE);l7.setVisibility(View.INVISIBLE);
-					d=2;
+					t2.setText(s);l7.setVisibility(View.INVISIBLE);
+					d=2;e2.setText(s2=f2s(s));e2.setVisibility(View.VISIBLE);
 				}
-				else
+				else if(t.equals("png")||t.equals("jpg")||t.equals("bmp"))
 				{
-				
+					t2.setText(s);l7.setVisibility(View.INVISIBLE);
+					d=3;i2.setVisibility(View.VISIBLE);i2.setImageBitmap(BitmapFactory.decodeFile(s));
 				}
 			}
 		}
