@@ -23,6 +23,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 //外部存储的写权限太难获取了，以后再想办法，小心!!!!!!!!!!!
+//es文件浏览器的选择文件的打开方式的功能，百度了很久也不知道怎么实现，以后再想办法，小心!!!!!!!!!!!
 public class ac2 extends Activity implements View.OnClickListener
 {
 	List<String>l=new ArrayList<>(),l2,l6;TreeSet<Integer>h=new TreeSet<>();
@@ -133,6 +134,7 @@ public class ac2 extends Activity implements View.OnClickListener
 		l5.addView(b7=new Button(this),p2);b7.setText("全选");b7.setOnClickListener(this);
 		l5.addView(b8=new Button(this),p2);b8.setText("区间选择");b8.setOnClickListener(this);
 		l5.setVisibility(View.INVISIBLE);
+		
 		
 		
 		
@@ -373,6 +375,10 @@ public class ac2 extends Activity implements View.OnClickListener
 				{
 					t2.setText(s);l7.setVisibility(View.INVISIBLE);
 					d=3;i2.setVisibility(View.VISIBLE);i2.setImageBitmap(BitmapFactory.decodeFile(s));
+				}
+				else
+				{
+				
 				}
 			}
 		}

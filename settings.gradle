@@ -1,2 +1,1 @@
 include ':app', ':0sy'
-rootProject.name='ccx'

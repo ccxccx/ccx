@@ -1,26 +1,38 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="c.cx900">
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    
-    
-<!--    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>-->
-<!--    <uses-permission android:name="android.permission.WRITE_MEDIA_STORAGE" />-->
-<!--    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />-->
-    
-    
-    <application
-        android:icon="@drawable/i"
-        android:label="各种功能"
-        android:theme="@android:style/Theme.Light.NoTitleBar">
-        <activity android:name="ac2">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
-        </activity>
-<!--        <activity android:name="ac2"/>-->
-<!--        <activity android:name="ac3"/>-->
-<!--        <activity android:name="ac4"/>-->
-<!--        <activity android:name="ac5"/>-->
-    </application>
+		  package="c.cx900">
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+	
+	
+	<!--    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>-->
+	<!--    <uses-permission android:name="android.permission.WRITE_MEDIA_STORAGE" />-->
+	<!--    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />-->
+	
+	
+	<application
+			android:icon="@drawable/i"
+			android:label="各种功能"
+			android:theme="@android:style/Theme.Light.NoTitleBar">
+		<activity android:name="ac3">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN"/>
+				<category android:name="android.intent.category.LAUNCHER"/>
+			</intent-filter>
+		</activity>
+		<!--        <activity android:name="ac2"/>-->
+		<!--        <activity android:name="ac3"/>-->
+		<!--        <activity android:name="ac4"/>-->
+		<!--        <activity android:name="ac5"/>-->
+		
+		
+		<!--必须加这个provider才能选择文件的打开方式，小心!!!!!!!!!!!-->
+		<provider
+				android:name="androidx.core.content.FileProvider"
+				android:authorities="ccx900"
+				android:grantUriPermissions="true"
+				android:exported="false">
+			<meta-data
+					android:name="android.support.FILE_PROVIDER_PATHS"
+					android:resource="@xml/file_paths"/>
+		</provider>
+	</application>
 </manifest>
