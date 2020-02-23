@@ -59,7 +59,7 @@ public class ac3 extends Activity implements View.OnClickListener
 	Button b,b2,b3,b4,b5,b6;
 	ba a2;Bitmap b0;MediaPlayer m=new MediaPlayer();
 	TextView t,t2;static TextView t4;
-	SeekBar s;Thread t3;String s2;
+	SeekBar s;Thread t3=new Thread();String s2;
 	Handler h=new Handler()
 	{
 		public void handleMessage(Message m){t.setText(s2);}
@@ -104,14 +104,13 @@ public class ac3 extends Activity implements View.OnClickListener
 		{
 			public void onProgressChanged(SeekBar seekBar,int i,boolean b)
 			{
-				if(b)
-				{
-					m.seekTo(i*1000);
-					t.setText(String.format("%02d:%02d",i/60,i%60));
-				}
+				t.setText(String.format("%02d:%02d",i/60,i%60));
 			}
 			public void onStartTrackingTouch(SeekBar seekBar){}
-			public void onStopTrackingTouch(SeekBar seekBar){}
+			public void onStopTrackingTouch(SeekBar s)
+			{
+				m.seekTo(s.getProgress()*1000);
+			}
 		});
 		l7.addView(t2=new TextView(this),p3);t2.setGravity(Gravity.CENTER);
 		LinearLayout l6=new LinearLayout(this);l5.addView(l6);
@@ -311,7 +310,7 @@ public class ac3 extends Activity implements View.OnClickListener
 	{try{
 		//System.out.println("ccxccxccxccx："+j);
 		String[]a=l.get(j);
-		if(t3!=null)t3.interrupt();
+		t3.interrupt();
 		s.setProgress(0);
 		s.setMax(l4.get(j));
 		if(b2.getText().equals("播放"))b2.callOnClick();
@@ -327,9 +326,7 @@ public class ac3 extends Activity implements View.OnClickListener
 			{try{
 				for(;;Thread.sleep(100))
 				{
-					int i=m.getCurrentPosition()/1000;
-					g(String.format("%02d:%02d",i/60,i%60));
-					s.setProgress(i);
+					s.setProgress(m.getCurrentPosition()/1000);
 				}
 			}catch(Exception e){e.printStackTrace();}}
 		});

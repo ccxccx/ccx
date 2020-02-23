@@ -18,11 +18,14 @@
 				<category android:name="android.intent.category.LAUNCHER"/>
 			</intent-filter>
 		</activity>
-		<!--        <activity android:name="ac2"/>-->
-		<!--        <activity android:name="ac3"/>-->
-		<!--        <activity android:name="ac4"/>-->
-		<!--        <activity android:name="ac5"/>-->
-		
+<!--		<activity android:name="ac2"/>-->
+<!--		<activity android:name="ac3"/>-->
+<!--		<activity android:name="ac4"/>-->
+<!--		<activity android:name="ac5"/>-->
+<!--		<activity android:name="ac6"/>-->
+<!--		<activity android:name="ac7"/>-->
+<!--		<activity android:name="ac8"/>-->
+<!--		<activity android:name="ac9"/>-->
 		
 		<!--必须加这个provider才能选择文件的打开方式，小心!!!!!!!!!!!-->
 		<provider

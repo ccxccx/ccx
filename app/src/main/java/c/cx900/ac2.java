@@ -150,6 +150,8 @@ public class ac2 extends Activity implements View.OnClickListener
 		
 		
 		
+		
+		
 		f(Environment.getExternalStorageDirectory()+"/0");
 	}
 	void cp(String a,String b)

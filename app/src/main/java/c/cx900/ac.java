@@ -11,8 +11,13 @@ import java.util.List;
 
 public class ac extends Activity
 {
-	Class[]a={  ac2.class,   ac3.class,  ac4.class,   ac5.class};
-	String[]s={"文件浏览器","音乐播放器","视频播放器","发送/接收文件"};
+	class i
+	{
+		Class c;String s;
+		i(Class a,String b){c=a;s=b;}
+	}
+	i[]a={new i(ac2.class,"文件浏览器"),new i(ac3.class,"音乐播放器"),new i(ac4.class,"视频播放器")
+			,new i(ac5.class,"发送/接收文件"),new i(ac6.class,""),new i(ac7.class,""),new i(ac8.class,""),new i(ac9.class,"")};
 	protected void onCreate(Bundle bu)
 	{
 		super.onCreate(bu);ListView l=new ListView(this);
@@ -33,12 +38,12 @@ public class ac extends Activity
 			{
 				b=new Button(c);
 			}
-			b.setText(s[i]);
+			b.setText(a[i].s);
 			b.setOnClickListener(new View.OnClickListener()
 			{
 				public void onClick(View v)
 				{
-					startActivity(new Intent(c,a[i]));
+					startActivity(new Intent(c,a[i].c));
 				}
 			});
 			return b;
