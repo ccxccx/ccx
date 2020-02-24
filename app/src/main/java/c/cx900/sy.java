@@ -26,6 +26,11 @@ import java.nio.channels.FileChannel;
 public class sy extends Activity implements View.OnClickListener
 {
 	TextView t;EditText e;Button b,b2,b3;
+	public void onBackPressed()
+	{
+		//使app按back键时返回桌面，而不是退出app
+		startActivity(new Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_HOME));
+	}
 	protected void onCreate(Bundle bu)
 	{
 		super.onCreate(bu);
@@ -43,13 +48,13 @@ public class sy extends Activity implements View.OnClickListener
 		l.addView(b2=new Button(this));b2.setOnClickListener(this);
 		l.addView(b3=new Button(this));b3.setOnClickListener(this);
 		
-
+		Notification.Builder b;
 	}catch(Exception e){e.printStackTrace();}}
 	public void onClick(View v)
 	{
 		if(v==b)
 		{
-		
+			startActivity(new Intent(this,sy.class).setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP));
 		}
 		else if(v==b2)
 		{

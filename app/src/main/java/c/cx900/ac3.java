@@ -55,10 +55,10 @@ import java.util.Map;
 public class ac3 extends Activity implements View.OnClickListener
 {
 	List<String[]>l=new ArrayList<>();List<Integer>l4=new ArrayList<>();
-	ListView l3;static int w;byte[]d;static int j;
+	ListView l3;byte[]d;int w,j;
 	Button b,b2,b3,b4,b5,b6;
 	ba a2;Bitmap b0;MediaPlayer m=new MediaPlayer();
-	TextView t,t2;static TextView t4;
+	TextView t,t2;TextView t4;
 	SeekBar s;Thread t3=new Thread();String s2;
 	Handler h=new Handler()
 	{
@@ -87,7 +87,7 @@ public class ac3 extends Activity implements View.OnClickListener
 		//请求权限不是permission，而是uses-permission，易错难发现!!!!!!!!!小心!!!!!!!!!
 		ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},0);
 	}
-	public void onRequestPermissionsResult(int requestCode,String[]permissions, int[]grantResults)
+	public void onRequestPermissionsResult(int requestCode,String[]permissions,int[]grantResults)
 	{try{
 		w=getWindowManager().getDefaultDisplay().getWidth();
 		RelativeLayout r=new RelativeLayout(this);setContentView(r);
@@ -136,23 +136,9 @@ public class ac3 extends Activity implements View.OnClickListener
 			}
 		});
 		r.addView(l13=new ListView(this),p2);
-		if(!NotificationManagerCompat.from(this).areNotificationsEnabled())
-		{
-			AlertDialog.Builder a=new AlertDialog.Builder(this).setMessage("请打开通知权限！")
-					.setPositiveButton("确定",new DialogInterface.OnClickListener()
-					{
-						public void onClick(DialogInterface dialog,int which)
-						{
-							startActivity(new Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS)
-									.putExtra("app_package",getPackageName()).putExtra("app_uid",getApplicationInfo().uid));
-						}
-					});
-			a.show();
-		}
 		String s="ccx";
 		m2=(NotificationManager)getSystemService(NOTIFICATION_SERVICE);
-		//注册按键广播接收器
-		IntentFilter f=new IntentFilter();f.addAction(s);
+		//注册按键的广播的接收器
 		registerReceiver(new BroadcastReceiver()
 		{
 			public void onReceive(Context c,Intent i)
@@ -162,7 +148,7 @@ public class ac3 extends Activity implements View.OnClickListener
 				else if(k==2)b2.callOnClick();
 				else if(k==3)b3.callOnClick();
 			}
-		},f);
+		},new IntentFilter(s));
 		Notification.Builder b;
 		if(Build.VERSION.SDK_INT>=26)
 		{
@@ -172,7 +158,7 @@ public class ac3 extends Activity implements View.OnClickListener
 		}
 		else b=new Notification.Builder(this);
 		//这个必须设置，否则会秒退，为啥？？？？？？？小心!!!!!!!!!!
-		b.setSmallIcon(R.drawable.i)
+		b.setSmallIcon(R.drawable.i2)
 				//令通知显示到第1个位置
 				.setOngoing(true);
 		r3=new RemoteViews(getPackageName(),R.layout.l);
@@ -188,7 +174,7 @@ public class ac3 extends Activity implements View.OnClickListener
 		b.setContent(r3)
 				//设置,点击通知后,执行的PendingIntent
 				.setContentIntent(PendingIntent.getActivity(this,4
-						,new Intent(this,ac.class).setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP),PendingIntent.FLAG_UPDATE_CURRENT));
+						,new Intent(this,ac3.class).setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP),PendingIntent.FLAG_UPDATE_CURRENT));
 		//刷新通知
 		m2.notify(1,n=b.build());
 		Cursor c=getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,null,null,null,null);
@@ -237,9 +223,31 @@ public class ac3 extends Activity implements View.OnClickListener
 		
 		
 		
+		
+		
+		
+		
 		//j=1251;
 		f();
+		if(!NotificationManagerCompat.from(this).areNotificationsEnabled())
+		{
+			AlertDialog.Builder a=new AlertDialog.Builder(this).setMessage("请打开通知权限！")
+					.setPositiveButton("确定",new DialogInterface.OnClickListener()
+					{
+						public void onClick(DialogInterface dialog,int which)
+						{
+							startActivityForResult(new Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS)
+									.putExtra("app_package",getPackageName()).putExtra("app_uid",getApplicationInfo().uid),0);
+						}
+					});
+			a.show();
+		}
 	}catch(Exception e){e.printStackTrace();}}
+	protected void onActivityResult(int requestCode,int resultCode,Intent data)
+	{
+		//打开通知权限后要刷新通知
+		m2.notify(1,n);
+	}
 	Bitmap b2o(Bitmap b)
 	{
 		int i=b.getWidth();Bitmap o=Bitmap.createBitmap(i,i,Bitmap.Config.ARGB_8888);
@@ -361,7 +369,6 @@ public class ac3 extends Activity implements View.OnClickListener
 		
 		
 	}catch(Exception e){e.printStackTrace();}}
-	void g(String s){s2=s;h.sendEmptyMessage(0);}
 	class ba extends BaseAdapter
 	{
 		Context c;List<Integer>l11;
