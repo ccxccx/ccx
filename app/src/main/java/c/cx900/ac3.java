@@ -227,6 +227,8 @@ public class ac3 extends Activity implements View.OnClickListener
 		
 		
 		
+		
+		
 		//j=1251;
 		f();
 		if(!NotificationManagerCompat.from(this).areNotificationsEnabled())
@@ -355,6 +357,8 @@ public class ac3 extends Activity implements View.OnClickListener
 		StringBuilder u=new StringBuilder();
 		for(int i:l10)u.append(i+",");
 		db.execSQL("update t set i='"+u+"'");
+		
+		
 		
 		
 		
