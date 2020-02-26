@@ -48,7 +48,20 @@ public class sy extends Activity implements View.OnClickListener
 		l.addView(b2=new Button(this));b2.setOnClickListener(this);
 		l.addView(b3=new Button(this));b3.setOnClickListener(this);
 		
-		Notification.Builder b;
+		VideoView videoView = new VideoView(this);
+		setContentView(videoView);
+		//加载指定的视频文件
+		String path = Environment.getExternalStorageDirectory().getPath()+"/0/0.mp4";
+		videoView.setVideoPath(path);
+		
+		//创建MediaController对象
+		MediaController mediaController = new MediaController(this);
+		
+		//VideoView与MediaController建立关联
+		videoView.setMediaController(mediaController);
+		
+		//让VideoView获取焦点
+		videoView.requestFocus();
 	}catch(Exception e){e.printStackTrace();}}
 	public void onClick(View v)
 	{

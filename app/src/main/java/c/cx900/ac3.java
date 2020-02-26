@@ -59,11 +59,7 @@ public class ac3 extends Activity implements View.OnClickListener
 	Button b,b2,b3,b4,b5,b6;
 	ba a2;Bitmap b0;MediaPlayer m=new MediaPlayer();
 	TextView t,t2;TextView t4;
-	SeekBar s;Thread t3=new Thread();String s2;
-	Handler h=new Handler()
-	{
-		public void handleMessage(Message m){t.setText(s2);}
-	};
+	SeekBar s;Thread t3=new Thread();
 	
 	LinearLayout l8;
 	MediaMetadataRetriever r2=new MediaMetadataRetriever();

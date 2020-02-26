@@ -12,7 +12,7 @@
 			android:icon="@drawable/i"
 			android:label="各种功能"
 			android:theme="@android:style/Theme.Light.NoTitleBar">
-		<activity android:name="ac3">
+		<activity android:name="sy">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN"/>
 				<category android:name="android.intent.category.LAUNCHER"/>
