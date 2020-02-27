@@ -1,8 +1,10 @@
 package c.cx900;
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.media.Image;
 import android.net.Uri;
 import android.text.TextUtils;
@@ -40,8 +42,13 @@ public class sy extends Activity implements View.OnClickListener
 		//而且WRITE_EXTERNAL_STORAGE的权限必须动态申请才行，记!!!!!!!!!!!!小心!!!!!!!!!!!
 		ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},0);
 	}
+	@SuppressLint("SourceLockedOrientationActivity")
 	public void onRequestPermissionsResult(int requestCode,String[]permissions,int[]grantResults)
 	{try{
+		//隐藏状态栏
+		getWindow().setFlags(1024,1024);
+		//设置界面方向为传感器控制且为横屏
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
 		LinearLayout l=new LinearLayout(this);setContentView(l);l.setOrientation(LinearLayout.VERTICAL);
 		//l.addView(t=new TextView(this));
 		l.addView(b=new Button(this));b.setOnClickListener(this);

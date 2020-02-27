@@ -1,6 +1,7 @@
 package c.cx900;
 import android.Manifest;
 import android.animation.ObjectAnimator;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Notification;
@@ -12,6 +13,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.ActivityInfo;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
@@ -43,6 +45,8 @@ import android.widget.RelativeLayout;
 import android.widget.RemoteViews;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.VideoView;
+
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationManagerCompat;
 import c.cx900.R;
@@ -57,7 +61,7 @@ public class ac4 extends Activity implements View.OnClickListener
 {
 	List<String[]>l=new ArrayList<>();List<Integer>l4=new ArrayList<>();
 	ListView l3;byte[]d;int w,j;
-	Button b,b2,b3,b4,b6;
+	Button b,b2,b3,b4,b6;VideoView v2;
 	ba a2;
 	TextView t,t2;TextView t4;
 	SeekBar s;Thread t3=new Thread();
@@ -149,8 +153,8 @@ public class ac4 extends Activity implements View.OnClickListener
 			if(i<l.size())l10.add(i);
 		}
 		if(!l10.isEmpty())j=l10.get(0);
-		
-		
+		r.addView(v2=new VideoView(this));
+		v2.setVisibility(View.INVISIBLE);
 		
 		
 		
@@ -263,11 +267,6 @@ public class ac4 extends Activity implements View.OnClickListener
 		
 		
 	}catch(Exception e){e.printStackTrace();}}
-	Bitmap rotateBitmap(Bitmap b,float a)
-	{
-		Matrix m=new Matrix();m.setRotate(a);
-		return Bitmap.createBitmap(b,0,0,b.getWidth(),b.getHeight(),m,false);
-	}
 	class ba extends BaseAdapter
 	{
 		Context c;List<Integer>l11;
@@ -290,18 +289,22 @@ public class ac4 extends Activity implements View.OnClickListener
 				a.t2.setGravity(Gravity.RIGHT);
 			}
 			else a=(i)l2.getTag();
-			String[]s=l.get(i);
+			final String[]s=l.get(i);
 			a.t.setText(i+"："+s[1]);
 			a.t2.setText(s[2]);
 			r2.setDataSource(s[0]);
 			Bitmap b=r2.getFrameAtTime();
-			if(b.getWidth()<b.getHeight())b=rotateBitmap(b,-90);
 			a.i.setImageBitmap(b);
 			l2.setOnClickListener(new View.OnClickListener()
 			{
+				
 				public void onClick(View v)
 				{try{
-				
+					v2.setVisibility(View.VISIBLE);
+					l3.setVisibility(View.INVISIBLE);
+					l13.setVisibility(View.INVISIBLE);
+					v2.setVideoPath(s[0]);
+					v2.start();
 				}catch(Exception e){e.printStackTrace();}}
 			});
 			return l2;
