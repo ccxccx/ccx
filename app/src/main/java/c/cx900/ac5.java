@@ -13,7 +13,7 @@ import androidx.core.app.ActivityCompat;
 
 public class ac5 extends Activity
 {
-	TextView t,t2;SeekBar s;VideoView v2;GestureDetector d;
+	TextView t,t2;SeekBar s;VideoView v2;GestureDetector d;LinearLayout l;
 	protected void onCreate(Bundle bu)
 	{
 		super.onCreate(bu);
@@ -31,13 +31,13 @@ public class ac5 extends Activity
 		RelativeLayout r=new RelativeLayout(this);setContentView(r);
 		r.addView(v2=new VideoView(this),-1,-1);
 		RelativeLayout.LayoutParams p=new RelativeLayout.LayoutParams(-1,-2);p.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-		LinearLayout l=new LinearLayout(this);r.addView(l,p);
+		l=new LinearLayout(this);r.addView(l,p);
 		LinearLayout.LayoutParams p2=new LinearLayout.LayoutParams(0,-2,1);
 		
 		l.addView(t=new TextView(this),p2);
 		l.addView(s=new SeekBar(this),new LinearLayout.LayoutParams(0,-2,6));
 		l.addView(t=new TextView(this),p2);
-		
+		l.setVisibility(View.INVISIBLE);
 		
 		v2.setVideoPath(Environment.getExternalStorageDirectory().getPath() + "/0/0.mp4");
 		v2.start();
@@ -45,10 +45,9 @@ public class ac5 extends Activity
 		{
 			public boolean onSingleTapUp(MotionEvent e)
 			{
-				System.out.println("ccxccx：单击");
+				
 				return super.onSingleTapUp(e);
 			}
-			
 			@Override
 			public void onLongPress(MotionEvent e) {
 				super.onLongPress(e);
@@ -74,10 +73,12 @@ public class ac5 extends Activity
 				return super.onDown(e);
 			}
 			
-			@Override
-			public boolean onDoubleTap(MotionEvent e) {
-				System.out.println("ccxccx：双击");
-				return super.onDoubleTap(e);
+			//当双击（300ms内连续单击2次）时自动调用
+			public boolean onDoubleTap(MotionEvent e)
+			{
+				//System.out.println("ccxccx：双击");
+				if(v2.isPlaying())v2.pause();else v2.start();
+				return false;
 			}
 			
 			@Override
@@ -85,9 +86,12 @@ public class ac5 extends Activity
 				return super.onDoubleTapEvent(e);
 			}
 			
-			@Override
-			public boolean onSingleTapConfirmed(MotionEvent e) {
-				return super.onSingleTapConfirmed(e);
+			//当单击后的300ms内没有再次单击时自动调用
+			public boolean onSingleTapConfirmed(MotionEvent e)
+			{
+				//System.out.println("ccxccx：单击");
+				l.setVisibility(l.getVisibility()==View.VISIBLE?View.INVISIBLE:View.VISIBLE);
+				return false;
 			}
 			
 			@Override
@@ -95,17 +99,12 @@ public class ac5 extends Activity
 				return super.onContextClick(e);
 			}
 		});
-		r.setOnTouchListener(new View.OnTouchListener()
-		{
-			public boolean onTouch(View v, MotionEvent event)
-			{
-				
-				
-				d.onTouchEvent(event);
-				
-				return false;
-			}
-		});
+		
+		
+	}
+	public boolean onTouchEvent(MotionEvent e)
+	{
+		return d.onTouchEvent(e);
 	}
 }
 abstract class On2ClickListener implements View.OnClickListener
