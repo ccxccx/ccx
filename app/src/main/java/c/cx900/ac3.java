@@ -330,7 +330,7 @@ public class ac3 extends Activity implements View.OnClickListener
 		{
 			public void run()
 			{try{
-				for(;;Thread.sleep(100))
+				for(;;Thread.sleep(200))
 				{
 					s.setProgress(m.getCurrentPosition()/1000);
 				}
