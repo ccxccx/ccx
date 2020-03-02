@@ -1,4 +1,4 @@
-package yanzhikai.gesturetest;
+package c.cx900;
 
 import android.app.Activity;
 import android.app.Service;
@@ -192,21 +192,7 @@ class BrightnessHelper {
 		return brightness;
 	}
 	
-	/*
-	 * 关闭自动调节亮度
-	 */
-	public void offAutoBrightness(){
-		try {
-			if(Settings.System.getInt(resolver, Settings.System.SCREEN_BRIGHTNESS_MODE) == Settings.System.SCREEN_BRIGHTNESS_MODE_AUTOMATIC)
-			{
-				Settings.System.putInt(resolver,
-						Settings.System.SCREEN_BRIGHTNESS_MODE,
-						Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL);
-			}
-		} catch (Settings.SettingNotFoundException e) {
-			e.printStackTrace();
-		}
-	}
+	
 	
 	/*
 	 * 获取系统亮度
