@@ -2,6 +2,7 @@ package c.cx900;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.pm.ActivityInfo;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.util.Log;
@@ -10,6 +11,8 @@ import android.view.GestureDetector;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.*;
 import android.app.*;
 import android.os.*;
@@ -19,7 +22,8 @@ import androidx.core.app.ActivityCompat;
 public class ac5 extends Activity
 {
 	TextView t,t2,t3;SeekBar s;VideoView v2;GestureDetector g;LinearLayout l;
-	int w,h,j,f,f1;boolean d;
+	int w,h,j,f,m;float f2;boolean d;WindowManager.LayoutParams p;Window w2;
+	AudioManager a;
 	//当打开app时：Create（v2=null）->Start->Resume->Pause->Resume（v2!=null）->Pause->Stop->Destroy->Create（v2=null）->Start->Resume->Pause->Resume（v2!=null）
 	//当按home键使app进入后台再重进时：Pause（v2!=null）->Stop->Restart->Start->Resume
 	protected void onCreate(Bundle bu)
@@ -35,14 +39,12 @@ public class ac5 extends Activity
 		Display d=getWindowManager().getDefaultDisplay();w=d.getWidth();h=d.getHeight();
 		//隐藏状态栏
 		getWindow().setFlags(1024,1024);
-		//设置界面方向为传感器控制且为横屏
-		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
 		RelativeLayout r=new RelativeLayout(this);setContentView(r);
 		//必须addRule(RelativeLayout.CENTER_IN_PARENT);才能使视频显示在中间，小心!!!!!!!!!!!
 		RelativeLayout.LayoutParams p3=new RelativeLayout.LayoutParams(-1,-1);p3.addRule(RelativeLayout.CENTER_IN_PARENT);
 		r.addView(v2=new VideoView(this),p3);
-		RelativeLayout.LayoutParams p=new RelativeLayout.LayoutParams(-1,-2);p.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-		l=new LinearLayout(this);r.addView(l,p);l.setBackgroundColor(0xffffffff);
+		RelativeLayout.LayoutParams p5=new RelativeLayout.LayoutParams(-1,-2);p5.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+		l=new LinearLayout(this);r.addView(l,p5);l.setBackgroundColor(0xffffffff);
 		LinearLayout.LayoutParams p2=new LinearLayout.LayoutParams(0,-2,1);
 		l.addView(t=new TextView(this),p2);t.setGravity(Gravity.CENTER);
 		l.addView(s=new SeekBar(this),new LinearLayout.LayoutParams(0,-2,6));
@@ -51,6 +53,8 @@ public class ac5 extends Activity
 		RelativeLayout.LayoutParams p4=new RelativeLayout.LayoutParams(h/3,h/3);p4.addRule(RelativeLayout.CENTER_IN_PARENT);
 		r.addView(t3=new TextView(this),p4);t3.setBackgroundColor(0xddffffff);t3.setGravity(Gravity.CENTER);
 		t3.setVisibility(View.INVISIBLE);
+		w2=getWindow();p=w2.getAttributes();p.screenBrightness=0.75f;w2.setAttributes(p);
+		a=(AudioManager)getSystemService(Service.AUDIO_SERVICE);m=a.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
 		
 		
 		
@@ -61,7 +65,12 @@ public class ac5 extends Activity
 		
 		
 		
-		v2.setVideoPath(Environment.getExternalStorageDirectory().getPath() + "/0/0.mp4");
+		
+		
+		
+		
+		
+		v2.setVideoPath(getIntent().getData().getPath());
 		v2.start();
 		v2.setOnPreparedListener(new MediaPlayer.OnPreparedListener()
 		{
@@ -105,31 +114,44 @@ public class ac5 extends Activity
 				{
 					t3.setVisibility(View.VISIBLE);
 					//当快进或快退时
-					if(Math.abs(x)>Math.abs(y))f=1;
+					if(Math.abs(x)>Math.abs(y))
+					{
+						f=1;f2=s.getProgress();
+					}
 					else
 					{
 						//当调整亮度时
-						if(e.getX()<w/2)f=2;
+						if(e.getX()<w/2)
+						{
+							f=2;f2=p.screenBrightness;
+						}
 						//当调整声音大小时
-						else f=3;
+						else
+						{
+							f=3;f2=a.getStreamVolume(AudioManager.STREAM_MUSIC);
+						}
 					}
 				}
 				//当快进或快退时
 				else if(f==1)
 				{
-					t3.setText("当前位置："+t(f1=s.getProgress())+"\n目标位置："+t((f1+=150*(e2.getX()-e.getX())/w)<0?0:f1));
+					f2-=150*x/w;f2=f2<0?0:f2>s.getMax()?s.getMax():f2;
+					t3.setText("当前位置："+t(s.getProgress())+"\n目标位置："+t((int)f2));
 				}
 				//当调整亮度时
 				else if(f==2)
 				{
-					
-					t3.setText("亮度：");
+					f2+=1.5f*y/h;p.screenBrightness=f2=f2<0?0:f2>1?1:f2;
+					w2.setAttributes(p);
+					t3.setText("亮度："+(int)(f2*100)+"%");
 				}
 				//当调整声音大小时
 				else if(f==3)
 				{
-					
-					t3.setText("声音：");
+					f2+=60*y/h;f2=f2<0?0:f2>m?m:f2;
+					int i=(int)f2;
+					a.setStreamVolume(AudioManager.STREAM_MUSIC,i,AudioManager.FLAG_PLAY_SOUND);
+					t3.setText("声音："+i+"/"+m);
 				}
 				return true;
 			}
@@ -157,7 +179,7 @@ public class ac5 extends Activity
 			t3.setVisibility(View.INVISIBLE);
 			if(f==1)
 			{
-				v2.seekTo(f1*1000);
+				v2.seekTo((int)(f2*1000));
 			}
 		}
 		return g.onTouchEvent(e);
