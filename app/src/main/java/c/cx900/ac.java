@@ -17,7 +17,7 @@ public class ac extends Activity
 		i(Class a,String b){c=a;s=b;}
 	}
 	i[]a={new i(ac2.class,"文件浏览器"),new i(ac3.class,"音乐播放器"),new i(ac4.class,"视频播放器")
-			,new i(ac5.class,"发送/接收文件"),new i(ac6.class,""),new i(ac7.class,""),new i(ac8.class,""),new i(ac9.class,"")};
+			,new i(ac6.class,"网页浏览器"),new i(ac7.class,""),new i(ac8.class,""),new i(ac9.class,"")};
 	protected void onCreate(Bundle bu)
 	{
 		super.onCreate(bu);ListView l=new ListView(this);

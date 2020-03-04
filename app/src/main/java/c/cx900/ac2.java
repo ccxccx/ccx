@@ -100,6 +100,8 @@ public class ac2 extends Activity implements View.OnClickListener
 		LinearLayout l9=new LinearLayout(this);l8.addView(l9);
 		LinearLayout.LayoutParams p2=new LinearLayout.LayoutParams(0,-2,1);
 		l9.addView(e=new EditText(this),new LinearLayout.LayoutParams(0,-2,4));
+		e.setSingleLine();
+		//当,在输入框内按下换行符时，执行自定义的代码
 		e.setOnEditorActionListener(new TextView.OnEditorActionListener()
 		{
 			public boolean onEditorAction(TextView tv,int i,KeyEvent k)
@@ -152,7 +154,7 @@ public class ac2 extends Activity implements View.OnClickListener
 		
 		
 		
-		f(Environment.getExternalStorageDirectory()+"/0");
+		f(Environment.getExternalStorageDirectory()+"/00");
 	}
 	void cp(String a,String b)
 	{
