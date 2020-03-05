@@ -1,18 +1,16 @@
 package c.cx900;
-
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.os.UserHandle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
-import android.webkit.WebBackForwardList;
-import android.webkit.WebChromeClient;
-import android.webkit.WebHistoryItem;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -23,10 +21,19 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-//如何在android studio里查看WebView的真正源码，百度了很久还是没查到，以后再想办法，小心!!!!!!!!!!!
+//如何在android studio里查看WebView的真正源码，百度了很久还是失败了，以后再想办法，小心!!!!!!!!!!!
+//用System.out.println("123");或Log.d("ccx","123");输出到Logcat时，某些手机会显示不全，如："小辣椒"手机（当只将手机换成vivo时就没问题了，所以肯定是手机有问题），以后再想办法，小心!!!!!!!!!!!
 public class ac6 extends Activity implements View.OnClickListener
 {
-	EditText e;Button b,b2,b3,b4,b5,b6;WebView w;
+	EditText e;Button b,b2,b3,b4,b5,b6;WebView w;TextView t;String s;
+	Handler h=new Handler()
+	{
+		public void handleMessage(Message m)
+		{
+			t.setText(s);
+		}
+	};
+	void t(String t){s=t;h.sendEmptyMessage(0);}
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
@@ -67,6 +74,7 @@ public class ac6 extends Activity implements View.OnClickListener
 		s.setLoadsImagesAutomatically(true);
 		//设置编码格式
 		s.setDefaultTextEncodingName("utf8");
+		r.addView(t=new TextView(this));
 		
 		
 		
@@ -74,7 +82,19 @@ public class ac6 extends Activity implements View.OnClickListener
 		
 		
 		
-		
+		new Thread()
+		{
+			public void run()
+			{try{
+				int i=0;
+				for(;;Thread.sleep(3000))
+				{
+					System.out.println("123456");
+					Log.d("ccx","123456");
+					t(++i+"");
+				}
+			}catch(Exception e){e.printStackTrace();}}
+		}.start();
 		
 		
 		
@@ -83,17 +103,41 @@ public class ac6 extends Activity implements View.OnClickListener
 		{
 			public boolean shouldOverrideUrlLoading(WebView w,String u)
 			{
+				System.out.println("shouldOverrideUrlLoading："+u);
+				
+				
+				
 				e.setText(u);w.loadUrl(u);
 				return true;
 			}
 			
 			
 			
+			@Override
+			public void onPageCommitVisible(WebView view,String url)
+			{
+				super.onPageCommitVisible(view,url);
+				System.out.println("onPageCommitVisible："+url);
+			}
+			
+			@Override
+			public void onPageFinished(WebView view,String url)
+			{
+				super.onPageFinished(view,url);
+				System.out.println("onPageFinished："+url);
+			}
+			
+			@Override
+			public void onPageStarted(WebView view,String url,Bitmap favicon)
+			{
+				super.onPageStarted(view,url,favicon);
+				System.out.println("onPageStarted："+url);
+			}
 			
 			public void onLoadResource(WebView w,String u)
 			{
 				super.onLoadResource(w,u);
-				
+				System.out.println("onLoadResource："+u);
 				//e.setText(u);
 			}
 		});
@@ -150,7 +194,7 @@ public class ac6 extends Activity implements View.OnClickListener
 		}
 		else if(v==b6)
 		{
-		
+			t.setVisibility(t.getVisibility()==View.VISIBLE?View.INVISIBLE:View.VISIBLE);
 		}
 	}
 	public void onBackPressed()
