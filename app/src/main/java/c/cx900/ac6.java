@@ -21,19 +21,25 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.net.URL;
+import java.net.URLDecoder;
+
 //如何在android studio里查看WebView的真正源码，百度了很久还是失败了，以后再想办法，小心!!!!!!!!!!!
 //用System.out.println("123");或Log.d("ccx","123");输出到Logcat时，某些手机会显示不全，如："小辣椒"手机（当只将手机换成vivo时就没问题了，所以肯定是手机有问题），以后再想办法，小心!!!!!!!!!!!
+//当加载"https://m.baidu.com/s?word=死神"时：onPageStarted（https://m.baidu.com/s?word=%E6%AD%BB%E7%A5%9E）->非常多个onLoadResource->onPageCommitVisible->非常多个onLoadResource
+//->onPageFinished（https://m.baidu.com/s?word=%E6%AD%BB%E7%A5%9E）->非常多个onLoadResource
+//当点击"https://wapbaike.baidu.com/item/久保带人/530466"时：shouldOverrideUrlLoading（https://wapbaike.baidu.com/item/久保带人/530466）->onPageStarted->onPageCommitVisible->onPageFinished
+//，但有时候点击链接时不会自动调用这些函数，如：点击死神的百度百科时，小心!!!!!!!!!!!!!
 public class ac6 extends Activity implements View.OnClickListener
 {
-	EditText e;Button b,b2,b3,b4,b5,b6;WebView w;TextView t;String s;
+	EditText e;Button b,b2,b3,b4,b5,b6;WebView w;
 	Handler h=new Handler()
 	{
 		public void handleMessage(Message m)
 		{
-			t.setText(s);
+			e.setText(URLDecoder.decode(w.getUrl()));
 		}
 	};
-	void t(String t){s=t;h.sendEmptyMessage(0);}
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
@@ -74,72 +80,52 @@ public class ac6 extends Activity implements View.OnClickListener
 		s.setLoadsImagesAutomatically(true);
 		//设置编码格式
 		s.setDefaultTextEncodingName("utf8");
-		r.addView(t=new TextView(this));
-		
-		
-		
-		
-		
-		
-		
+		//每秒获取1次当前网址
 		new Thread()
 		{
 			public void run()
 			{try{
-				int i=0;
-				for(;;Thread.sleep(3000))
+				for(;;Thread.sleep(1000))
 				{
-					System.out.println("123456");
-					Log.d("ccx","123456");
-					t(++i+"");
+					h.sendEmptyMessage(1);
 				}
 			}catch(Exception e){e.printStackTrace();}}
 		}.start();
-		
-		
-		
-		
+		//设置使WebView加载网页，而不是打开默认浏览器再加载网页
 		w.setWebViewClient(new WebViewClient()
 		{
-			public boolean shouldOverrideUrlLoading(WebView w,String u)
-			{
-				System.out.println("shouldOverrideUrlLoading："+u);
-				
-				
-				
-				e.setText(u);w.loadUrl(u);
-				return true;
-			}
-			
-			
-			
-			@Override
-			public void onPageCommitVisible(WebView view,String url)
-			{
-				super.onPageCommitVisible(view,url);
-				System.out.println("onPageCommitVisible："+url);
-			}
-			
-			@Override
-			public void onPageFinished(WebView view,String url)
-			{
-				super.onPageFinished(view,url);
-				System.out.println("onPageFinished："+url);
-			}
-			
-			@Override
-			public void onPageStarted(WebView view,String url,Bitmap favicon)
-			{
-				super.onPageStarted(view,url,favicon);
-				System.out.println("onPageStarted："+url);
-			}
-			
-			public void onLoadResource(WebView w,String u)
-			{
-				super.onLoadResource(w,u);
-				System.out.println("onLoadResource："+u);
-				//e.setText(u);
-			}
+//			public boolean shouldOverrideUrlLoading(WebView w,String u)
+//			{
+//				System.out.println("shouldOverrideUrlLoading："+URLDecoder.decode(u));
+//
+//
+//
+//				e.setText(u);//w.loadUrl(u);
+//				return super.shouldOverrideUrlLoading(w,u);
+//			}
+//
+//
+//
+//			@Override
+//			public void onPageCommitVisible(WebView view,String url)
+//			{
+//				super.onPageCommitVisible(view,url);
+//				System.out.println("onPageCommitVisible："+URLDecoder.decode(url));
+//			}
+//
+//			@Override
+//			public void onPageFinished(WebView view,String url)
+//			{
+//				super.onPageFinished(view,url);
+//				System.out.println("onPageFinished："+URLDecoder.decode(url));
+//			}
+//
+//			@Override
+//			public void onPageStarted(WebView view,String url,Bitmap favicon)
+//			{
+//				super.onPageStarted(view,url,favicon);
+//				System.out.println("onPageStarted："+URLDecoder.decode(url));
+//			}
 		});
 		
 		
@@ -154,7 +140,7 @@ public class ac6 extends Activity implements View.OnClickListener
 		
 		
 		
-		e.setText("https://m.baidu.com/s?word=死神");onClick(b);
+		w.loadUrl("https://m.baidu.com/s?word=死神");
 	}
 	public void onClick(View v)
 	{
@@ -194,7 +180,7 @@ public class ac6 extends Activity implements View.OnClickListener
 		}
 		else if(v==b6)
 		{
-			t.setVisibility(t.getVisibility()==View.VISIBLE?View.INVISIBLE:View.VISIBLE);
+		
 		}
 	}
 	public void onBackPressed()
