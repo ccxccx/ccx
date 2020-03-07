@@ -1,5 +1,6 @@
 package c.cx900;
 import android.app.Activity;
+import android.content.ClipboardManager;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -8,6 +9,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.UserHandle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -20,6 +22,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.net.URL;
 import java.net.URLDecoder;
@@ -32,21 +35,28 @@ import java.net.URLDecoder;
 //，但有时候点击链接时不会自动调用这些函数，如：点击死神的百度百科时，小心!!!!!!!!!!!!!
 public class ac6 extends Activity implements View.OnClickListener
 {
-	EditText e;Button b,b2,b3,b4,b5,b6;WebView w;
+	EditText e;Button b,b2,b3,b4,b5,b6,b7,b8;WebView w;TextView t;
 	Handler h=new Handler()
 	{
 		public void handleMessage(Message m)
 		{
-			e.setText(URLDecoder.decode(w.getUrl()));
+			t.setText(URLDecoder.decode(w.getUrl()));
 		}
 	};
+	ClipboardManager c;int w2;
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
+		w2=getWindowManager().getDefaultDisplay().getWidth();
+		c=(ClipboardManager)getSystemService(CLIPBOARD_SERVICE);
 		RelativeLayout r=new RelativeLayout(this);setContentView(r);
 		LinearLayout l=new LinearLayout(this);r.addView(l);l.setOrientation(LinearLayout.VERTICAL);
-		LinearLayout l2=new LinearLayout(this);l.addView(l2);
-		LinearLayout.LayoutParams p=new LinearLayout.LayoutParams(0,-2,1);
+		LinearLayout l2=new LinearLayout(this);l.addView(l2,new LinearLayout.LayoutParams(-1,w2/7));
+		LinearLayout.LayoutParams p=new LinearLayout.LayoutParams(0,-2,1),p3=new LinearLayout.LayoutParams(0,-1,1);
+		l2.addView(t=new TextView(this),new LinearLayout.LayoutParams(0,-1,5));t.setGravity(Gravity.CENTER);
+		l2.addView(b7=new Button(this),p3);b7.setText("复制链接");b7.setOnClickListener(this);
+		l2.addView(b8=new Button(this),p3);b8.setText("刷新");b8.setOnClickListener(this);
+		l2=new LinearLayout(this);l.addView(l2);
 		l2.addView(e=new EditText(this),new LinearLayout.LayoutParams(0,-2,6));
 		e.setSingleLine();
 		//当,在输入框内按下换行符时，执行自定义的代码
@@ -150,20 +160,6 @@ public class ac6 extends Activity implements View.OnClickListener
 		}
 		else if(v==b2)
 		{
-
-//			WebBackForwardList backForwardList = w.copyBackForwardList();
-//			if (backForwardList != null && backForwardList.getSize() != 0) {
-//				//当前页面在历史队列中的位置
-//				int currentIndex = backForwardList.getCurrentIndex();
-//				WebHistoryItem historyItem =
-//						backForwardList.getItemAtIndex(currentIndex - 1);
-//				if (historyItem != null) {
-//					String backPageUrl = historyItem.getUrl();
-//					//url拿到可以进行操作
-//
-			
-			
-			
 			w.goBack();
 		}
 		else if(v==b3)
@@ -172,7 +168,7 @@ public class ac6 extends Activity implements View.OnClickListener
 		}
 		else if(v==b4)
 		{
-		
+			w.loadUrl("https://www.baidu.com");
 		}
 		else if(v==b5)
 		{
@@ -181,6 +177,15 @@ public class ac6 extends Activity implements View.OnClickListener
 		else if(v==b6)
 		{
 		
+		}
+		else if(v==b7)
+		{
+			c.setText(t.getText());
+			Toast.makeText(this,t.getText(),Toast.LENGTH_SHORT).show();
+		}
+		else if(v==b8)
+		{
+			w.reload();
 		}
 	}
 	public void onBackPressed()
