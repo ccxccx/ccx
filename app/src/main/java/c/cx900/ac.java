@@ -23,6 +23,10 @@ public class ac extends Activity
 		super.onCreate(bu);ListView l=new ListView(this);
 		setContentView(l);l.setAdapter(new ba(this));
 		
+		
+		
+		
+		startActivity(new Intent(this,ac6.class));
 	}
 	class ba extends BaseAdapter
 	{

@@ -15,21 +15,24 @@
 			android:icon="@drawable/i"
 			android:label="各种功能"
 			android:theme="@android:style/Theme.Light.NoTitleBar">
-		<activity android:name="ac6">
+		<activity android:name="ac">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN"/>
 				<category android:name="android.intent.category.LAUNCHER"/>
 			</intent-filter>
 		</activity>
 
-		<!--		<activity android:name="ac2"/>-->
-		<!--		<activity android:name="ac3"/>-->
-		<!--		<activity android:name="ac4"/>-->
-		<!--		<activity android:name="ac6"/>-->
-		<!--		<activity android:name="ac7"/>-->
-		<!--		<activity android:name="ac8"/>-->
-		<!--		<activity android:name="ac9"/>-->
 
+        <activity android:name="sy"/>
+        <activity android:name="sy2"/>
+        <activity android:name="sy3"/>
+        <activity android:name="sy4"/>
+        <activity android:name="sy5"/>
+
+
+        <activity android:name="ac2"/>
+        <activity android:name="ac3"/>
+        <activity android:name="ac4"/>
 <!--		设置界面方向为传感器控制且为横屏-->
 		<activity android:name="ac5"
 			android:screenOrientation="sensorLandscape"
@@ -41,6 +44,10 @@
 				<data android:mimeType="video/*"/>
 			</intent-filter>
 		</activity>
+        <activity android:name="ac6"/>
+        <activity android:name="ac7"/>
+        <activity android:name="ac8"/>
+        <activity android:name="ac9"/>
 <!--		必须加这个provider才能选择文件的打开方式，小心!!!!!!!!!!!-->
 		<provider
 				android:name="androidx.core.content.FileProvider"

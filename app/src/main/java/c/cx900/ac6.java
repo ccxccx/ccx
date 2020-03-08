@@ -13,6 +13,7 @@ import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -32,7 +33,7 @@ import java.net.URLDecoder;
 //当加载"https://m.baidu.com/s?word=死神"时：onPageStarted（https://m.baidu.com/s?word=%E6%AD%BB%E7%A5%9E）->非常多个onLoadResource->onPageCommitVisible->非常多个onLoadResource
 //->onPageFinished（https://m.baidu.com/s?word=%E6%AD%BB%E7%A5%9E）->非常多个onLoadResource
 //当点击"https://wapbaike.baidu.com/item/久保带人/530466"时：shouldOverrideUrlLoading（https://wapbaike.baidu.com/item/久保带人/530466）->onPageStarted->onPageCommitVisible->onPageFinished
-//，但有时候点击链接时不会自动调用这些函数，如：点击死神的百度百科时，小心!!!!!!!!!!!!!
+//，但有时候点击链接时不会自动调用这些函数（shouldOverrideUrlLoading()、onPageStarted()、onPageCommitVisible()、onPageFinished()），如：点击死神的百度百科时，小心!!!!!!!!!!!!!
 public class ac6 extends Activity implements View.OnClickListener
 {
 	EditText e;Button b,b2,b3,b4,b5,b6,b7,b8;WebView w;TextView t;
@@ -40,7 +41,7 @@ public class ac6 extends Activity implements View.OnClickListener
 	{
 		public void handleMessage(Message m)
 		{
-			t.setText(URLDecoder.decode(w.getUrl()));
+		
 		}
 	};
 	ClipboardManager c;int w2;
@@ -90,61 +91,31 @@ public class ac6 extends Activity implements View.OnClickListener
 		s.setLoadsImagesAutomatically(true);
 		//设置编码格式
 		s.setDefaultTextEncodingName("utf8");
-		//每秒获取1次当前网址
-		new Thread()
+		//设置使用WebView加载网页，而不是打开默认浏览器再加载网页
+		w.setWebViewClient(new WebViewClient());
+		w.setWebChromeClient(new WebChromeClient()
 		{
-			public void run()
-			{try{
-				for(;;Thread.sleep(1000))
-				{
-					h.sendEmptyMessage(1);
-				}
-			}catch(Exception e){e.printStackTrace();}}
-		}.start();
-		//设置使WebView加载网页，而不是打开默认浏览器再加载网页
-		w.setWebViewClient(new WebViewClient()
-		{
-//			public boolean shouldOverrideUrlLoading(WebView w,String u)
-//			{
-//				System.out.println("shouldOverrideUrlLoading："+URLDecoder.decode(u));
-//
-//
-//
-//				e.setText(u);//w.loadUrl(u);
-//				return super.shouldOverrideUrlLoading(w,u);
-//			}
-//
-//
-//
-//			@Override
-//			public void onPageCommitVisible(WebView view,String url)
-//			{
-//				super.onPageCommitVisible(view,url);
-//				System.out.println("onPageCommitVisible："+URLDecoder.decode(url));
-//			}
-//
-//			@Override
-//			public void onPageFinished(WebView view,String url)
-//			{
-//				super.onPageFinished(view,url);
-//				System.out.println("onPageFinished："+URLDecoder.decode(url));
-//			}
-//
-//			@Override
-//			public void onPageStarted(WebView view,String url,Bitmap favicon)
-//			{
-//				super.onPageStarted(view,url,favicon);
-//				System.out.println("onPageStarted："+URLDecoder.decode(url));
-//			}
+			//当页面改变时，只有onProgressChanged()一定会自动调用，会自动调用>=1次
+			public void onProgressChanged(WebView w,int i)
+			{
+				//System.out.println("onProgressChanged："+i+"："+URLDecoder.decode(w.getUrl()));
+				System.out.println("onProgressChanged："+i+"："+w.getTitle());
+				t.setText(URLDecoder.decode(w.getUrl()));
+			}
+			public void onReceivedTitle(WebView view,String s)
+			{
+				System.out.println("onReceivedTitle："+s);
+				
+			}
 		});
-		
-		
-		
-		
-		
-		
-		
-		//ListView l3=new ListView(this);
+			
+			
+			
+			
+			
+			
+			
+			//ListView l3=new ListView(this);
 		
 		
 		
