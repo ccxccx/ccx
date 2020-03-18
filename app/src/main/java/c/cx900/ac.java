@@ -16,8 +16,9 @@ public class ac extends Activity
 		Class c;String s;
 		i(Class a,String b){c=a;s=b;}
 	}
-	i[]a={new i(ac2.class,"文件浏览器"),new i(ac3.class,"音乐播放器"),new i(ac4.class,"视频播放器")
-			,new i(ac6.class,"网页浏览器"),new i(ac7.class,""),new i(ac8.class,""),new i(ac9.class,"")};
+	i[]a={new i(ac2.class,"文件浏览器"),new i(ac3.class,"音乐播放器"),new i(ac4.class,"视频播放器"),new i(ac6.class,"网页浏览器")
+			,new i(ac8.class,"计算器"),new i(ac9.class,"录音机"),new i(ac10.class,"相机"),new i(ac11.class,"录屏")
+			,new i(ac12.class,"设置壁纸")};
 	protected void onCreate(Bundle bu)
 	{
 		super.onCreate(bu);ListView l=new ListView(this);
@@ -26,7 +27,7 @@ public class ac extends Activity
 		
 		
 		
-		startActivity(new Intent(this,ac6.class));
+		startActivity(new Intent(this,ac8.class));
 	}
 	class ba extends BaseAdapter
 	{

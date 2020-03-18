@@ -1,0 +1,17 @@
+S→r D
+D→D , i
+D→i
+S→{ Ss }
+Ss→Ss S
+Ss→ε
+S→i S e S
+S→i S
+
+     r    ,    i    $      S  D
+0  s2                    1
+1                 acc
+2            s4               3
+3       s5       r1
+4       r3        r3
+5            s6
+6       r2        r2

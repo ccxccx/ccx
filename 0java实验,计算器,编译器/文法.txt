@@ -1,0 +1,78 @@
+stmts→stmts stmt 
+stmts→ε 
+stmt→s ,
+stmt→s ;
+stmt→s
+stmt→{ stmts }
+s→id2 = s2
+s→id2 += bool
+s→id2 -= bool
+s→id2 *= bool
+s→id2 /= bool
+s→id2 %= bool
+s→id2 ++
+s→id2 --
+bool→join || bool
+bool→join
+join→equality && join
+join→equality
+equality→equality == rel 
+equality→equality != rel 
+equality→rel 
+rel→expr < expr
+rel→expr <= expr
+rel→expr >= expr
+rel→expr > expr
+rel→expr 
+expr→expr + term 
+expr→expr - term 
+expr→term 
+term→term * unary 
+term→term / unary 
+term→term % unary 
+term→unary 
+unary→! unary
+unary→- unary
+unary→factor
+factor→( bool ) 
+factor→id2
+factor→num 
+factor→π
+factor→E
+unary→√ unary
+unary→[ bool ] √ unary
+unary→factor √ unary
+unary→factor ^ unary
+factor→sin ( bool )
+factor→cos ( bool )
+factor→tan ( bool )
+factor→asin ( bool )
+factor→acos ( bool )
+factor→atan ( bool )
+factor→lb ( bool )
+factor→ln ( bool )
+factor→lg ( bool )
+factor→log [ bool ] ( bool )
+factor→factor !
+factor→factor !!
+factor→yy ( bool , bool )
+factor→bb ( bool , bool )
+stmt→i0 i stmt
+stmt→i0 i stmt e stmt
+i0→ε
+i→if ( bool )
+e→else
+stmt→i0 w0 w stmt
+w0→ε
+w→while ( bool )
+s2→id2 = s2
+factor→∫ [ bool , bool ] i1 w0 ii
+i1→ε
+ii→ε
+ii→ii D ( id ) i2 ( bool )
+i2→ε
+factor→Φ ( bool )
+factor→u [ bool ]
+id2→id
+id2→id2 [ bool ]
+s2→bool

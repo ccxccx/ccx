@@ -101,6 +101,9 @@ public class ac6 extends Activity implements View.OnClickListener
 		
 		
 		
+		
+		
+		
 		WebSettings s=w.getSettings();
 		//设置允许网页运行JavaScript，必须加这个，小心!!!!!!!!!!!!!
 		s.setJavaScriptEnabled(true);

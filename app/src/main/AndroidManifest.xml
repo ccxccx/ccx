@@ -33,21 +33,24 @@
         <activity android:name="ac2"/>
         <activity android:name="ac3"/>
         <activity android:name="ac4"/>
-<!--		设置界面方向为传感器控制且为横屏-->
-		<activity android:name="ac5"
-			android:screenOrientation="sensorLandscape"
-			tools:ignore="LockedOrientationActivity">
-<!--			必须加这个intent-filter才能使es文件浏览器能选择打开这个Activity，小心!!!!!!!!!!!-->
-			<intent-filter>
-				<action android:name="android.intent.action.VIEW"/>
-				<data android:scheme="content"/>
-				<data android:mimeType="video/*"/>
-			</intent-filter>
-		</activity>
         <activity android:name="ac6"/>
         <activity android:name="ac7"/>
         <activity android:name="ac8"/>
         <activity android:name="ac9"/>
+        <activity android:name="ac10"/>
+        <activity android:name="ac11"/>
+        <activity android:name="ac12"/>
+<!--		设置界面方向为传感器控制且为横屏-->
+        <activity android:name="ac5"
+            android:screenOrientation="sensorLandscape"
+            tools:ignore="LockedOrientationActivity">
+            <!--			必须加这个intent-filter才能使es文件浏览器能选择打开这个Activity，小心!!!!!!!!!!!-->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <data android:scheme="content"/>
+                <data android:mimeType="video/*"/>
+            </intent-filter>
+        </activity>
 <!--		必须加这个provider才能选择文件的打开方式，小心!!!!!!!!!!!-->
 		<provider
 				android:name="androidx.core.content.FileProvider"
