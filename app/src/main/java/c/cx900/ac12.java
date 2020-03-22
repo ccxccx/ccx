@@ -6,8 +6,8 @@ public class ac12 extends Activity
 {
 	protected void onCreate(Bundle bu)
 	{
-		super.onCreate(bu);LinearLayout l=new LinearLayout(this);
-		setContentView(l);l.setOrientation(LinearLayout.VERTICAL);
+		super.onCreate(bu);
+		LinearLayout l=new LinearLayout(this);setContentView(l);l.setOrientation(LinearLayout.VERTICAL);
 		
 	}
 }
