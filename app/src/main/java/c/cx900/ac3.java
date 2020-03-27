@@ -114,8 +114,8 @@ public class ac3 extends Activity implements View.OnClickListener
 		l6.addView(b2=new Button(this),p3);b2.setText("暂停");b2.setOnClickListener(this);
 		l6.addView(b3=new Button(this),p3);b3.setText("下一首");b3.setOnClickListener(this);
 		LinearLayout l9=new LinearLayout(this);r.addView(l9,-1,-2);l9.setId(i=2);
-		l9.addView(b4=new Button(this),p3);b4.setText("歌曲列表");b4.setOnClickListener(this);
 		l9.addView(b5=new Button(this),p3);b5.setText("歌曲详情页");b5.setOnClickListener(this);
+		l9.addView(b4=new Button(this),p3);b4.setText("歌曲列表");b4.setOnClickListener(this);
 		l9.addView(b6=new Button(this),p3);b6.setText("最近播放过的");b6.setOnClickListener(this);
 		r.addView(l3=new ListView(this),p2);
 		r.addView(l8=new LinearLayout(this),p2);l8.setOrientation(LinearLayout.VERTICAL);
@@ -153,7 +153,7 @@ public class ac3 extends Activity implements View.OnClickListener
 			b=new Notification.Builder(this,"1");
 		}
 		else b=new Notification.Builder(this);
-		//这个必须设置，否则会秒退，为啥？？？？？？？小心!!!!!!!!!!
+		//必须setSmallIcon()，否则会秒退，为啥？？？？？？？小心!!!!!!!!!!
 		b.setSmallIcon(R.drawable.i2)
 				//令通知显示到第1个位置
 				.setOngoing(true);

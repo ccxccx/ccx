@@ -28,6 +28,7 @@ public class ac extends Activity
 		
 		
 		startActivity(new Intent(this,ac9.class));
+		//startActivity(new Intent(this,sy.class));
 	}
 	class ba extends BaseAdapter
 	{

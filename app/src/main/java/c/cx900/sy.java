@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.media.Image;
+import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -45,30 +46,15 @@ public class sy extends Activity implements View.OnClickListener
 	@SuppressLint("SourceLockedOrientationActivity")
 	public void onRequestPermissionsResult(int requestCode,String[]permissions,int[]grantResults)
 	{try{
-		//隐藏状态栏
-		getWindow().setFlags(1024,1024);
-		//设置界面方向为传感器控制且为横屏
-		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
 		LinearLayout l=new LinearLayout(this);setContentView(l);l.setOrientation(LinearLayout.VERTICAL);
 		//l.addView(t=new TextView(this));
 		l.addView(b=new Button(this));b.setOnClickListener(this);
 		l.addView(b2=new Button(this));b2.setOnClickListener(this);
 		l.addView(b3=new Button(this));b3.setOnClickListener(this);
+		MediaMetadataRetriever r2=new MediaMetadataRetriever();
+		r2.setDataSource(getExternalFilesDir("")+"/2020.03.27 16.47.19.mp3");
+		System.out.println(r2.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION));
 		
-		VideoView videoView = new VideoView(this);
-		setContentView(videoView);
-		//加载指定的视频文件
-		String path = Environment.getExternalStorageDirectory().getPath()+"/0/0.mp4";
-		videoView.setVideoPath(path);
-		
-		//创建MediaController对象
-		MediaController mediaController = new MediaController(this);
-		
-		//VideoView与MediaController建立关联
-		videoView.setMediaController(mediaController);
-		
-		//让VideoView获取焦点
-		videoView.requestFocus();
 	}catch(Exception e){e.printStackTrace();}}
 	public void onClick(View v)
 	{
