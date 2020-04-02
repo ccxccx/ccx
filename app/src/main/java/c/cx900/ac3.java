@@ -73,8 +73,11 @@ public class ac3 extends Activity implements View.OnClickListener
 	SQLiteDatabase db;
 	public void onBackPressed()
 	{
-		//使app按back键时返回桌面，而不是退出app
-		startActivity(new Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_HOME));
+		finish();
+		//释放MediaPlayer所占用的资源，使MediaPlayer停止播放音乐
+		m.release();
+		//清除通知
+		m2.cancel(1);
 	}
 	protected void onCreate(Bundle savedInstanceState)
 	{

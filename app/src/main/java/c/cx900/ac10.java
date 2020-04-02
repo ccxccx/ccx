@@ -72,8 +72,11 @@ public class ac10 extends Activity implements View.OnClickListener
 	static List<String>a;static int j;
 	public void onBackPressed()
 	{
-		//使app按back键时返回桌面，而不是退出app
-		startActivity(new Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_HOME));
+		finish();
+		//释放MediaPlayer所占用的资源，使MediaPlayer停止播放音乐
+		m.release();
+		//清除通知
+		m2.cancel(1);
 	}
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -199,7 +202,9 @@ public class ac10 extends Activity implements View.OnClickListener
 		{
 			r2.setDataSource(t);
 			l4.add(i=new Integer(r2.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION))/1000);
-			l.add(new String[]{r2.extractMetadata(MediaMetadataRetriever.METADATA_KEY_TITLE),r2.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ARTIST)
+			s=r2.extractMetadata(MediaMetadataRetriever.METADATA_KEY_TITLE);
+			if(s==null)s=new File(t).getName();
+			l.add(new String[]{s,r2.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ARTIST)
 					,String.format("%02d:%02d",i/60,i%60),r2.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ALBUM)});
 		}
 		l3.setAdapter(a2=new ba(this));

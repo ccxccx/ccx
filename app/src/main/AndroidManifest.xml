@@ -61,6 +61,8 @@
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
                 <data android:scheme="content"/>
+<!--                必须加scheme="file"才能使Android 6.0（SDK版本为23）的手机上的es文件浏览器能选择打开这个Activity，小心!!!!!!!!!!!-->
+                <data android:scheme="file"/>
                 <data android:mimeType="video/*"/>
             </intent-filter>
         </activity>
@@ -69,6 +71,8 @@
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
                 <data android:scheme="content"/>
+<!--                必须加scheme="file"才能使Android 6.0（SDK版本为23）的手机上的es文件浏览器能选择打开这个Activity，小心!!!!!!!!!!!-->
+                <data android:scheme="file"/>
                 <data android:mimeType="audio/*"/>
             </intent-filter>
         </activity>

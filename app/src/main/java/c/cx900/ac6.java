@@ -227,13 +227,4 @@ public class ac6 extends Activity implements View.OnClickListener
 			w.findNext(true);
 		}
 	}
-	public void onBackPressed()
-	{
-		if(w.canGoBack())
-		{
-			w.goBack();
-		}
-		//使app按back键时返回桌面，而不是退出app
-		else startActivity(new Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_HOME));
-	}
 }

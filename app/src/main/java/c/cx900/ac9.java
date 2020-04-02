@@ -23,8 +23,7 @@ public class ac9 extends Activity implements View.OnClickListener
 		LinearLayout l=new LinearLayout(this);setContentView(l);l.setOrientation(LinearLayout.VERTICAL);
 		l.addView(b=new Button(this));b.setText("开始录音");b.setOnClickListener(this);
 		l.addView(b2=new Button(this));b2.setText("播放录音");b2.setOnClickListener(this);
-		f=getExternalFilesDir("")+"/";
-		
+		new File(f=getExternalFilesDir("")+"/录音/").mkdir();
 		
 		
 		
@@ -67,7 +66,7 @@ public class ac9 extends Activity implements View.OnClickListener
 		{
 			List<String>a=new ArrayList<>();
 			for(File f:new File(f).listFiles())a.add(f+"");
-			ac10.a=a;ac10.j=a.indexOf(f2);
+			ac10.a=a;ac10.j=a.indexOf(f2);if(ac10.j==-1)ac10.j=0;
 			startActivity(new Intent(this,ac10.class));
 		}
 	}catch(Exception e){e.printStackTrace();}}

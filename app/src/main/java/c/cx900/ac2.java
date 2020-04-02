@@ -27,56 +27,10 @@ import java.util.regex.Pattern;
 public class ac2 extends Activity implements View.OnClickListener
 {
 	List<String>l=new ArrayList<>(),l2,l6;TreeSet<Integer>h=new TreeSet<>();
-	TextView t,t2;int j,w,n,n2,d;ba a;Button b,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11;
-	LinearLayout l3,l4,l5,l7,l8;boolean d2;String f,s2;EditText e,e2;GridView g;
-	ImageView i2;
+	TextView t,t2;int j,w,n,n2,d;ba a;Button b,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12;
+	LinearLayout l3,l4,l5,l7,l8;boolean d2;String f2,s2;EditText e,e2;GridView g;
+	ImageView i2;static String f;
 	void t(String s){t.setText(++j+"："+s);}
-	public void onBackPressed()
-	{
-		if(d==0)f(new File(t2.getText()+"").getParent());
-		else if(d==1)
-		{
-			d=0;
-			l3.setVisibility(View.INVISIBLE);l5.setVisibility(View.INVISIBLE);l8.setVisibility(View.VISIBLE);
-			h.clear();a.notifyDataSetChanged();
-		}
-		else if(d==2)
-		{
-			//这里不能用e2.getText().equals(s2)或s2.equals(e2.getText())
-			//必须用s2.equals(e2.getText()+"")，易错难发现!!!!!!!!!!!!!小心!!!!!!!!!!!!!
-			//为了防止出错，以后统一用s.equals(b.getText()+"")，记!!!!!!!!!!!!!小心!!!!!!!!!!!!!
-			if(s2.equals(e2.getText()+""))
-			{
-				d=0;f(new File(t2.getText()+"").getParent());
-				e2.setVisibility(View.INVISIBLE);l7.setVisibility(View.VISIBLE);
-			}
-			else
-			{
-				new AlertDialog.Builder(this).setTitle("是否保存？")
-						.setPositiveButton("是",new DialogInterface.OnClickListener()
-						{
-							public void onClick(DialogInterface dialog,int which)
-							{
-								s2f(e2.getText()+"",t2.getText()+"");
-								d=0;f(new File(t2.getText()+"").getParent());
-								e2.setVisibility(View.INVISIBLE);l7.setVisibility(View.VISIBLE);
-							}
-						}).setNegativeButton("否",new DialogInterface.OnClickListener()
-						{
-							public void onClick(DialogInterface dialog,int which)
-							{
-								d=0;f(new File(t2.getText()+"").getParent());
-								e2.setVisibility(View.INVISIBLE);l7.setVisibility(View.VISIBLE);
-							}
-						}).show();
-			}
-		}
-		else if(d==3)
-		{
-			d=0;f(new File(t2.getText()+"").getParent());
-			i2.setVisibility(View.INVISIBLE);l7.setVisibility(View.VISIBLE);
-		}
-	}
 	protected void onCreate(Bundle bu)
 	{
 		super.onCreate(bu);
@@ -90,12 +44,13 @@ public class ac2 extends Activity implements View.OnClickListener
 	{
 		w=getWindowManager().getDefaultDisplay().getWidth();
 		RelativeLayout r=new RelativeLayout(this);setContentView(r);
-		LinearLayout l=new LinearLayout(this);r.addView(l,-1,-2);l.setOrientation(LinearLayout.VERTICAL);
-		l.addView(t=new TextView(this));t.setGravity(Gravity.CENTER);t.setTextColor(0xffff0000);
-		l.addView(t2=new TextView(this));t2.setGravity(Gravity.CENTER);
+		r.addView(t2=new TextView(this),-1,-2);t2.setGravity(Gravity.CENTER);
+		RelativeLayout.LayoutParams p6=new RelativeLayout.LayoutParams(-1,-2);p6.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+		r.addView(b12=new Button(this),p6);b12.setText("<");b12.setOnClickListener(this);
 		RelativeLayout.LayoutParams p4=new RelativeLayout.LayoutParams(-1,-2);
-		p4.addRule(RelativeLayout.BELOW,1);int i=1;l.setId(i);
+		int i=1;t2.setId(i);p4.addRule(RelativeLayout.BELOW,1);b12.setId(i=2);p4.addRule(RelativeLayout.ABOVE,2);
 		l7=new LinearLayout(this);r.addView(l7,p4);l7.setOrientation(LinearLayout.VERTICAL);
+		l7.addView(t=new TextView(this));t.setGravity(Gravity.CENTER);t.setTextColor(0xffff0000);
 		l7.addView(l8=new LinearLayout(this));l8.setOrientation(LinearLayout.VERTICAL);
 		LinearLayout l9=new LinearLayout(this);l8.addView(l9);
 		LinearLayout.LayoutParams p2=new LinearLayout.LayoutParams(0,-2,1);
@@ -118,7 +73,8 @@ public class ac2 extends Activity implements View.OnClickListener
 		RelativeLayout.LayoutParams p5=new RelativeLayout.LayoutParams(-1,-1);p5.addRule(RelativeLayout.BELOW,1);
 		r.addView(e2=new EditText(this),p5);e2.setVisibility(View.INVISIBLE);e2.setGravity(Gravity.TOP);
 		r.addView(i2=new ImageView(this),p5);i2.setVisibility(View.INVISIBLE);
-		f(Environment.getExternalStorageDirectory()+"");
+		if(f==null)f=Environment.getExternalStorageDirectory()+"";
+		f(f);
 		RelativeLayout.LayoutParams p=new RelativeLayout.LayoutParams(-1,-2);p.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
 		l3=new LinearLayout(this);r.addView(l3,p);
 		l3.addView(b=new Button(this),p2);b.setText("复制");b.setOnClickListener(this);
@@ -154,7 +110,7 @@ public class ac2 extends Activity implements View.OnClickListener
 		
 		
 		
-		f(Environment.getExternalStorageDirectory()+"/00");
+		//f(Environment.getExternalStorageDirectory()+"/00");
 	}
 	void cp(String a,String b)
 	{
@@ -175,7 +131,7 @@ public class ac2 extends Activity implements View.OnClickListener
 		if(v==b||v==b2)
 		{
 			d2=v==b;
-			f=t2.getText()+"/";l2=new ArrayList<>();
+			f2=t2.getText()+"/";l2=new ArrayList<>();
 			for(int i:h)l2.add(l.get(i));
 			onBackPressed();
 			l4.setVisibility(View.VISIBLE);
@@ -249,14 +205,14 @@ public class ac2 extends Activity implements View.OnClickListener
 			{
 				for(String s:l2)
 				{
-					cp(f+s,t2.getText()+"/"+s);
+					cp(f2+s,t2.getText()+"/"+s);
 				}
 			}
 			else
 			{
 				for(String s:l2)
 				{
-					new File(f+s).renameTo(new File(t2.getText()+"/"+s));
+					new File(f2+s).renameTo(new File(t2.getText()+"/"+s));
 				}
 			}
 			f(t2.getText()+"");
@@ -325,6 +281,52 @@ public class ac2 extends Activity implements View.OnClickListener
 			n=l.size();
 			for(i=n2;i<l6.size();i++)if(l6.get(i).contains(s))l.add(l6.get(i));
 			a.notifyDataSetChanged();
+		}
+		else if(v==b12)
+		{
+			if(d==0)f(new File(t2.getText()+"").getParent());
+			else if(d==1)
+			{
+				d=0;
+				l3.setVisibility(View.INVISIBLE);l5.setVisibility(View.INVISIBLE);l8.setVisibility(View.VISIBLE);
+				h.clear();a.notifyDataSetChanged();
+			}
+			else if(d==2)
+			{
+				//这里不能用e2.getText().equals(s2)或s2.equals(e2.getText())
+				//必须用s2.equals(e2.getText()+"")，易错难发现!!!!!!!!!!!!!小心!!!!!!!!!!!!!
+				//为了防止出错，以后统一用s.equals(b.getText()+"")，记!!!!!!!!!!!!!小心!!!!!!!!!!!!!
+				if(s2.equals(e2.getText()+""))
+				{
+					d=0;f(new File(t2.getText()+"").getParent());
+					e2.setVisibility(View.INVISIBLE);l7.setVisibility(View.VISIBLE);
+				}
+				else
+				{
+					new AlertDialog.Builder(this).setTitle("是否保存？")
+							.setPositiveButton("是",new DialogInterface.OnClickListener()
+							{
+								public void onClick(DialogInterface dialog,int which)
+								{
+									s2f(e2.getText()+"",t2.getText()+"");
+									d=0;f(new File(t2.getText()+"").getParent());
+									e2.setVisibility(View.INVISIBLE);l7.setVisibility(View.VISIBLE);
+								}
+							}).setNegativeButton("否",new DialogInterface.OnClickListener()
+					{
+						public void onClick(DialogInterface dialog,int which)
+						{
+							d=0;f(new File(t2.getText()+"").getParent());
+							e2.setVisibility(View.INVISIBLE);l7.setVisibility(View.VISIBLE);
+						}
+					}).show();
+				}
+			}
+			else if(d==3)
+			{
+				d=0;f(new File(t2.getText()+"").getParent());
+				i2.setVisibility(View.INVISIBLE);l7.setVisibility(View.VISIBLE);
+			}
 		}
 	}
 	//删除文件和文件夹
@@ -445,7 +447,7 @@ public class ac2 extends Activity implements View.OnClickListener
 					else
 					{
 						String s2=t2.getText()+"";
-						f(s2+(s2.equals("/")?"":"/")+s);
+						f(s2+(s2.endsWith("/")?"":"/")+s);
 					}
 				}
 			});
