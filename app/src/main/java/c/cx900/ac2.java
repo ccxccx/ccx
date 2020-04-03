@@ -5,6 +5,7 @@ import android.annotation.TargetApi;
 import android.content.*;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
@@ -382,9 +383,15 @@ public class ac2 extends Activity implements View.OnClickListener
 					t2.setText(s);l7.setVisibility(View.INVISIBLE);
 					d=3;i2.setVisibility(View.VISIBLE);i2.setImageBitmap(BitmapFactory.decodeFile(s));
 				}
-				else
+				else if(t.equals("mp3"))
 				{
-				
+					List<String>a=new ArrayList<>();a.add(s);
+					ac10.a=a;ac10.j=0;
+					startActivity(new Intent(this,ac10.class));
+				}
+				else if(t.equals("mp4"))
+				{
+					startActivity(new Intent(this,ac5.class).setData(Uri.parse("file://"+s)));
 				}
 			}
 		}

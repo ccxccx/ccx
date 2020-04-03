@@ -1,226 +1,127 @@
 package c.cx;
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
-import android.net.Uri;
+import android.content.Intent;
+import android.graphics.Color;
+import android.media.projection.MediaProjectionManager;
 import android.os.Bundle;
-import android.os.Environment;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.lqr.adapter.LQRAdapterForRecyclerView;
-import com.lqr.adapter.LQRViewHolder;
-import com.lqr.adapter.LQRViewHolderForRecyclerView;
-import com.lqr.adapter.OnItemClickListener;
-import com.lqr.recyclerview.LQRRecyclerView;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import kr.co.namee.permissiongen.PermissionGen;
-
-public class ac extends Activity
-{
-    private static final int MAX_VOICE_TIME = 20;
-    private static final String AUDIO_DIR_NAME = "community_audio";
-
-    LinearLayout mRoot;
-    LQRRecyclerView mRvMsg;
-    RecordAudioButton mBtnVoice;
-
-    private Context mContext;
-    private File mAudioDir;
-    private LQRAdapterForRecyclerView<File> mAdapter;
-    private RecordVoicePopWindow mRecordVoicePopWindow;
-    private List<File> mData = new ArrayList<>();
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
+public class ac extends Activity{
+    
+    
+    private Button b,b2;
+    
+    private static final int REQUEST_CODE = 1000;
+    
+    private int mScreenWidth;
+    private int mScreenHeight;
+    private int mScreenDensity;
+    
+    /** 是否已经开启视频录制 */
+    private boolean isStarted = false;
+    /** 是否为标清视频 */
+    private boolean isVideoSd = true;
+    /** 是否开启音频录制 */
+    private boolean isAudio = true;
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
-        mContext = this;
-        setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
-        request();
-		mRoot=findViewById(R.id.root);
-        mBtnVoice=findViewById(R.id.btnVoice);
-		mRvMsg=findViewById(R.id.rvMsg);
-        initVoice();
-        initData();
-    }
-
-    private void request() {
-        PermissionGen.with(this)
-                .addRequestCode(100)
-                .permissions(Manifest.permission.RECORD_AUDIO
-                        , Manifest.permission.WRITE_EXTERNAL_STORAGE
-                        , Manifest.permission.WAKE_LOCK
-                        , Manifest.permission.READ_EXTERNAL_STORAGE)
-                .request();
-    }
-
-    private void initVoice() {
-        mAudioDir = new File(Environment.getExternalStorageDirectory(), AUDIO_DIR_NAME);
-        if (!mAudioDir.exists()) {
-            mAudioDir.mkdirs();
-        }
-        AudioRecordManager.getInstance(mContext).setAudioSavePath(mAudioDir.getAbsolutePath());
-        AudioRecordManager.getInstance(this).setMaxVoiceDuration(MAX_VOICE_TIME);
-        mBtnVoice.setOnVoiceButtonCallBack(new RecordAudioButton.OnVoiceButtonCallBack() {
+        LinearLayout l=new LinearLayout(this);setContentView(l);l.setOrientation(LinearLayout.VERTICAL);
+        
+        l.addView(b=new Button(this));b.setText("button_control");b.setText("开始录制");b.setBackgroundColor(Color.RED);
+        l.addView(b2=new Button(this));b2.setText("button_contro2");
+    
+    
+        
+        
+        b.setOnClickListener(new View.OnClickListener() {
+        
             @Override
-            public void onStartRecord() {
-                AudioRecordManager.getInstance(mContext).startRecord();
-            }
-
-            @Override
-            public void onStopRecord() {
-                AudioRecordManager.getInstance(mContext).stopRecord();
-            }
-
-            @Override
-            public void onWillCancelRecord() {
-                AudioRecordManager.getInstance(mContext).willCancelRecord();
-            }
-
-            @Override
-            public void onContinueRecord() {
-                AudioRecordManager.getInstance(mContext).continueRecord();
-            }
-        });
-        AudioRecordManager.getInstance(this).setAudioRecordListener(new IAudioRecordListener() {
-            @Override
-            public void initTipView() {
-                if (mRecordVoicePopWindow == null) {
-                    mRecordVoicePopWindow = new RecordVoicePopWindow(mContext);
-                }
-                mRecordVoicePopWindow.showAsDropDown(mRoot);
-            }
-
-            @Override
-            public void setTimeoutTipView(int counter) {
-                if (mRecordVoicePopWindow != null) {
-                    mRecordVoicePopWindow.showTimeOutTipView(counter);
-                }
-            }
-
-            @Override
-            public void setRecordingTipView() {
-                if (mRecordVoicePopWindow != null) {
-                    mRecordVoicePopWindow.showRecordingTipView();
-                }
-            }
-
-            @Override
-            public void setAudioShortTipView() {
-                if (mRecordVoicePopWindow != null) {
-                    mRecordVoicePopWindow.showRecordTooShortTipView();
-                }
-            }
-
-            @Override
-            public void setCancelTipView() {
-                if (mRecordVoicePopWindow != null) {
-                    mRecordVoicePopWindow.showCancelTipView();
-                }
-            }
-
-            @Override
-            public void destroyTipView() {
-                if (mRecordVoicePopWindow != null) {
-                    mRecordVoicePopWindow.dismiss();
-                }
-            }
-
-            @Override
-            public void onStartRecord() {
-
-            }
-
-            @Override
-            public void onFinish(Uri audioPath, int duration) {
-                File file = new File(audioPath.getPath());
-                if (file.exists()) {
-                    Toast.makeText(getApplicationContext(), "录制成功", Toast.LENGTH_SHORT).show();
-                    loadData();
-                }
-            }
-
-            @Override
-            public void onAudioDBChanged(int db) {
-                if (mRecordVoicePopWindow != null) {
-                    mRecordVoicePopWindow.updateCurrentVolume(db);
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                if(isStarted) {
+    
+                    Intent service = new Intent(ac.this, se.class);
+                    stopService(service);
+                    isStarted = !isStarted;
+                    statusIsStoped();//仅仅是状态
+                } else {
+                    MediaProjectionManager mediaProjectionManager = (MediaProjectionManager) getSystemService(Context.MEDIA_PROJECTION_SERVICE);
+                    Intent permissionIntent = mediaProjectionManager.createScreenCaptureIntent();
+                    startActivityForResult(permissionIntent, REQUEST_CODE);
                 }
             }
         });
+    
+    
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        mScreenWidth = metrics.widthPixels;
+        mScreenHeight = metrics.heightPixels;
+        mScreenDensity = metrics.densityDpi;
     }
-
-    private void initData() {
-        loadData();
-        setAdapter();
+    
+    
+    /**
+     * 开启屏幕录制时的UI状态
+     */
+    private void statusIsStarted() {
+        b.setText("停止录制");
+        b.setBackgroundColor(Color.GREEN);
     }
-
-
-    private void loadData() {
-        if (mAudioDir.exists()) {
-            mData.clear();
-            File[] files = mAudioDir.listFiles();
-            for (File file : files) {
-                if (file.getAbsolutePath().endsWith("voice")) {
-                    mData.add(file);
-                }
+    
+    /**
+     * 结束屏幕录制后的UI状态
+     */
+    private void statusIsStoped() {
+        b.setText("开始录制");
+        b.setBackgroundColor(Color.RED);
+    }
+    
+    
+    
+    
+    
+    
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // TODO Auto-generated method stub
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == REQUEST_CODE) {
+            if(resultCode == RESULT_OK) {
+                // 获得权限，启动Service开始录制
+                Intent service = new Intent(this, se.class);
+                service.putExtra("code", resultCode);
+                service.putExtra("data", data);
+                service.putExtra("audio", isAudio);
+                service.putExtra("width", mScreenWidth);
+                service.putExtra("height", mScreenHeight);
+                service.putExtra("density", mScreenDensity);
+                service.putExtra("quality", isVideoSd);
+                startService(service);
+                // 已经开始屏幕录制，修改UI状态
+                isStarted = !isStarted;
+                statusIsStarted();
+//    simulateHome(); // this.finish(); // 可以直接关闭Activity
+            } else {
+                Toast.makeText(this, "跳出提示框", Toast.LENGTH_LONG).show();
             }
-            setAdapter();
         }
     }
-
-    private void setAdapter() {
-        if (mAdapter == null) {
-            mAdapter = new LQRAdapterForRecyclerView<File>(this, mData, R.layout.community_adapter_chat_list_right_voice) {
-                @Override
-                public void convert(LQRViewHolderForRecyclerView helper, File item, int position) {
-                    //这里就不考虑语音长度了，实际开发中用到的Sdk有提供保存语音信息的bean
-
-                }
-            };
-            mAdapter.setOnItemClickListener(new OnItemClickListener() {
-                @Override
-                public void onItemClick(LQRViewHolder helper, ViewGroup parent, View itemView, int position) {
-                    AudioPlayManager.getInstance().stopPlay();
-                    File item = mData.get(position);
-                    final VoiceImageView ivAudio = helper.getView(R.id.iv_voice);
-                    Uri audioUri = Uri.fromFile(item);
-                    Log.e("LQR", audioUri.toString());
-                    AudioPlayManager.getInstance().startPlay(mContext, audioUri, new IAudioPlayListener() {
-                        @Override
-                        public void onStart(Uri var1) {
-                            ivAudio.startPlay();
-                        }
-
-                        @Override
-                        public void onStop(Uri var1) {
-                            ivAudio.stopPlay();
-                        }
-
-                        @Override
-                        public void onComplete(Uri var1) {
-                            ivAudio.stopPlay();
-                        }
-                    });
-                }
-            });
-            mRvMsg.setAdapter(mAdapter);
-        } else
-
-        {
-            mAdapter.notifyDataSetChangedWrapper();
-        }
-    }
+    
+    
+    
+   
+    
 }

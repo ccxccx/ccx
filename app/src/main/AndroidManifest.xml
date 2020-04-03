@@ -6,16 +6,19 @@
 	<uses-permission android:name="android.permission.INTERNET"/>
 <!--	必须加RECORD_AUDIO的权限才能使用MediaRecorder，小心!!!!!!!!!!!-->
 	<uses-permission android:name="android.permission.RECORD_AUDIO"/>
-	
+<!--    必须加CAMERA的权限才能录屏，小心!!!!!!!!!!!-->
+    <uses-permission android:name="android.permission.CAMERA"/>
+
+
 	<!--    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>-->
 	<!--    <uses-permission android:name="android.permission.WRITE_MEDIA_STORAGE" />-->
 	<!--    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />-->
 	
 	
 	<application
-			android:icon="@drawable/i"
-			android:label="各种功能"
-			android:theme="@android:style/Theme.Light.NoTitleBar">
+        android:icon="@drawable/i"
+        android:label="各种功能"
+        android:theme="@android:style/Theme.Light.NoTitleBar">
 		<activity android:name="ac">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN"/>
@@ -53,9 +56,11 @@
 		<activity android:name="ac18"/>
 		<activity android:name="ac19"/>
 		<activity android:name="ac20"/>
-<!--		设置界面方向为传感器控制且为横屏-->
+<!--		screenOrientation="sensorLandscape"是设置界面方向为传感器控制且为横屏-->
+<!--        必须加configChanges="orientation|screenSize"，否则用setRequestedOrientation()时会运行2次onCreate()，小心!!!!!!!!!!!-->
         <activity android:name="ac5"
             android:screenOrientation="sensorLandscape"
+            android:configChanges="orientation|screenSize"
             tools:ignore="LockedOrientationActivity">
             <!--			必须加这个intent-filter才能使es文件浏览器能选择打开这个Activity，小心!!!!!!!!!!!-->
             <intent-filter>

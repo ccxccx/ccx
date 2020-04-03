@@ -1,6 +1,7 @@
 package c.cx900;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
@@ -27,8 +28,9 @@ public class ac extends Activity
 		
 		
 		
-		startActivity(new Intent(this,ac11.class));
-		//startActivity(new Intent(this,sy.class));
+		startActivity(new Intent(this,ac12.class));
+		//startActivity(new Intent(this,sy4.class));
+		//startActivity(new Intent(this,ac5.class).setData(Uri.parse("file:///storage/emulated/0/0/1.mp4")));
 	}
 	class ba extends BaseAdapter
 	{

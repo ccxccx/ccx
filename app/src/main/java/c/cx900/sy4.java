@@ -7,7 +7,7 @@ public class sy4 extends Activity
 	protected void onCreate(Bundle bu)
 	{
 		super.onCreate(bu);
-		System.out.println("onCreate");
+		System.out.println("Create");
 		
 		LinearLayout l=new LinearLayout(this);setContentView(l);l.setOrientation(LinearLayout.VERTICAL);
 		
@@ -15,31 +15,31 @@ public class sy4 extends Activity
 	protected void onStart()
 	{
 		super.onStart();
-		System.out.println("onStart");
+		System.out.println("Start");
 	}
 	protected void onRestart()
 	{
 		super.onRestart();
-		System.out.println("onRestart");
+		System.out.println("Restart");
 	}
 	protected void onResume()
 	{
 		super.onResume();
-		System.out.println("onResume");
+		System.out.println("Resume");
 	}
 	protected void onPause()
 	{
 		super.onPause();
-		System.out.println("onPause");
+		System.out.println("Pause");
 	}
 	protected void onStop()
 	{
 		super.onStop();
-		System.out.println("onStop");
+		System.out.println("Stop");
 	}
 	protected void onDestroy()
 	{
 		super.onDestroy();
-		System.out.println("onDestroy");
+		System.out.println("Destroy");
 	}
 }
