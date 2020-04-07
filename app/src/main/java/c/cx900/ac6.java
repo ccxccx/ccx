@@ -2,8 +2,10 @@ package c.cx900;
 import android.app.Activity;
 import android.content.ClipboardManager;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -13,14 +15,17 @@ import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.WebBackForwardList;
 import android.webkit.WebChromeClient;
 import android.webkit.WebHistoryItem;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -29,6 +34,8 @@ import android.widget.Toast;
 
 import java.net.URL;
 import java.net.URLDecoder;
+import java.util.ArrayList;
+import java.util.List;
 
 //如何在android studio里查看WebView的真正源码，百度了很久还是失败了，以后再想办法，小心!!!!!!!!!!!
 //用System.out.println("123");或Log.d("ccx","123");输出到Logcat时，某些手机会显示不全，如："小辣椒"手机（当只将手机换成vivo时就没问题了，所以肯定是手机有问题），以后再想办法，小心!!!!!!!!!!!
@@ -44,15 +51,16 @@ import java.net.URLDecoder;
 //百度了很久，还是无法获取到正确的标题，以后再想办法，小心!!!!!!!!!!!
 public class ac6 extends Activity implements View.OnClickListener
 {
-	EditText e,e2;Button b,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12;WebView w;TextView t;
-	Handler h=new Handler()
-	{
-		public void handleMessage(Message m)
-		{
-		
-		}
-	};
-	ClipboardManager c;int w2;LinearLayout l4,l5;
+	EditText e,e2;Button b,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12,b13;WebView w;TextView t;
+	ClipboardManager c;int w2;LinearLayout l4,l5;ListView l6;ba a;List<WebView>l7=new ArrayList<>();
+	View l8;
+//		Handler h=new Handler()
+//	{
+//		public void handleMessage(Message m)
+//		{
+//
+//		}
+//	};
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
@@ -87,13 +95,19 @@ public class ac6 extends Activity implements View.OnClickListener
 		l3.addView(b5=new Button(this),p);b5.setText("1");b5.setOnClickListener(this);
 		l3.addView(b6=new Button(this),p);b6.setText("其他");b6.setOnClickListener(this);
 		RelativeLayout.LayoutParams p4=new RelativeLayout.LayoutParams(-1,-2);int i=1;l3.setId(i);p4.addRule(RelativeLayout.ABOVE,1);
-		r.addView(l4=new LinearLayout(this),p4);l4.setVisibility(View.INVISIBLE);
+		r.addView(l8=l4=new LinearLayout(this),p4);l4.setVisibility(View.INVISIBLE);
 		l4.addView(b9=new Button(this),p);b9.setText("页内查找");b9.setOnClickListener(this);
 		r.addView(l5=new LinearLayout(this),p4);l5.setVisibility(View.INVISIBLE);
 		l5.addView(e2=new EditText(this),new LinearLayout.LayoutParams(0,-2,6.5f));e2.setHint("请输入您要查找的字符串");
 		l5.addView(b10=new Button(this),new LinearLayout.LayoutParams(0,-2,1.5f));b10.setText("查找");b10.setOnClickListener(this);
 		l5.addView(b11=new Button(this),p);b11.setText("<");b11.setOnClickListener(this);
 		l5.addView(b12=new Button(this),p);b12.setText(">");b12.setOnClickListener(this);
+		r.addView(b13=new Button(this),p4);b13.setText("+");b13.setOnClickListener(this);b13.setVisibility(View.INVISIBLE);
+		RelativeLayout.LayoutParams p5=new RelativeLayout.LayoutParams(-1,-2);b13.setId(i=2);p5.addRule(RelativeLayout.ABOVE,2);
+		r.addView(l6=new ListView(this));l7.add(w);l6.setAdapter(a=new ba(this));l6.setVisibility(View.INVISIBLE);
+		
+		
+		
 		
 		
 		
@@ -134,6 +148,13 @@ public class ac6 extends Activity implements View.OnClickListener
 				
 			}
 		});
+		
+		
+		
+		
+		
+		
+		
 		
 		
 		
@@ -193,13 +214,19 @@ public class ac6 extends Activity implements View.OnClickListener
 		}
 		else if(v==b5)
 		{
-		
+			if(l8.getVisibility()==View.VISIBLE)l8.setVisibility(View.INVISIBLE);
+			else
+			{
+				l6.setVisibility(View.VISIBLE);l8=l6;
+			}
 		}
 		else if(v==b6)
 		{
-			if(l4.getVisibility()==View.VISIBLE)l4.setVisibility(View.INVISIBLE);
-			else if(l5.getVisibility()==View.VISIBLE)l5.setVisibility(View.INVISIBLE);
-			else l4.setVisibility(View.VISIBLE);
+			if(l8.getVisibility()==View.VISIBLE)l8.setVisibility(View.INVISIBLE);
+			else
+			{
+				l4.setVisibility(View.VISIBLE);l8=l4;
+			}
 		}
 		else if(v==b7)
 		{
@@ -212,7 +239,7 @@ public class ac6 extends Activity implements View.OnClickListener
 		}
 		else if(v==b9)
 		{
-			l4.setVisibility(View.INVISIBLE);l5.setVisibility(View.VISIBLE);
+			l4.setVisibility(View.INVISIBLE);l5.setVisibility(View.VISIBLE);l8=l5;
 		}
 		else if(v==b10)
 		{
@@ -225,6 +252,35 @@ public class ac6 extends Activity implements View.OnClickListener
 		else if(v==b12)
 		{
 			w.findNext(true);
+		}
+	}
+	class ba extends BaseAdapter
+	{
+		Context c;
+		ba(Context a){c=a;}
+		public int getCount(){return l7.size();}
+		public Object getItem(int position){return null;}
+		public long getItemId(int position){return 0;}
+		public View getView(int i,View v,ViewGroup g)
+		{
+			Button b=(Button)v;
+			if(b==null)
+			{
+				b=new Button(c);
+			}
+			final WebView w2=l7.get(i);
+			if(w2==w)b.setBackgroundColor(0x77ff0000);
+			else b.setBackgroundColor(0xffffffff);
+			b.setText(w2.getUrl());
+			b.setOnClickListener(new View.OnClickListener()
+			{
+				public void onClick(View v)
+				{try{
+					w.setVisibility(View.INVISIBLE);
+					w2.setVisibility(View.VISIBLE);
+				}catch(Exception e){e.printStackTrace();}}
+			});
+			return b;
 		}
 	}
 }

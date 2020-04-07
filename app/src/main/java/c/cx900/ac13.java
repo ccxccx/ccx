@@ -1,5 +1,5 @@
 package c.cx900;
-import android.widget.*;
+import android.content.Intent;
 import android.app.*;
 import android.os.*;
 public class ac13 extends Activity
@@ -7,7 +7,10 @@ public class ac13 extends Activity
 	protected void onCreate(Bundle bu)
 	{
 		super.onCreate(bu);
-		LinearLayout l=new LinearLayout(this);setContentView(l);l.setOrientation(LinearLayout.VERTICAL);
-		
+		startActivityForResult(new Intent(Intent.ACTION_SET_WALLPAPER),0);
+	}
+	protected void onActivityResult(int requestCode,int resultCode,Intent data)
+	{
+		finish();
 	}
 }

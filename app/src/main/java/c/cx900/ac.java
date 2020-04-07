@@ -28,7 +28,7 @@ public class ac extends Activity
 		
 		
 		
-		startActivity(new Intent(this,ac12.class));
+		startActivity(new Intent(this,ac6.class));
 		//startActivity(new Intent(this,sy4.class));
 		//startActivity(new Intent(this,ac5.class).setData(Uri.parse("file:///storage/emulated/0/0/1.mp4")));
 	}
