@@ -35,6 +35,7 @@ import android.widget.Toast;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 //如何在android studio里查看WebView的真正源码，百度了很久还是失败了，以后再想办法，小心!!!!!!!!!!!
@@ -49,12 +50,16 @@ import java.util.List;
 //每3s用1次w.getTitle()有时也还是无法获取到正确的标题
 //用WebHistoryItem h=w.copyBackForwardList().getCurrentItem();if(h!=null)System.out.println(h.getTitle());有时也还是无法获取到正确的标题
 //百度了很久，还是无法获取到正确的标题，以后再想办法，小心!!!!!!!!!!!
+
+//试了很久，还是无法实现从下到上且不遮挡Button的ListView，以后再想办法，小心!!!!!!!!!!!
+
+//WebView点击百度的输入框时会白屏，百度了很久还是无法解决，以后再想办法，小心!!!!!!!!!!!
 public class ac6 extends Activity implements View.OnClickListener
 {
-	EditText e,e2;Button b,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12,b13;WebView w;TextView t;
-	ClipboardManager c;int w2;LinearLayout l4,l5;ListView l6;ba a;List<WebView>l7=new ArrayList<>();
-	View l8;
-//		Handler h=new Handler()
+	EditText e,e2;Button b,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12,b13,b14;WebView w;TextView t;
+	ClipboardManager c;int w2;LinearLayout l4,l5,l9;ListView l6;ba a;List<WebView>l7=new LinkedList<>();
+	View l8;RelativeLayout r;RelativeLayout.LayoutParams p6;
+	//	Handler h=new Handler()
 //	{
 //		public void handleMessage(Message m)
 //		{
@@ -66,15 +71,15 @@ public class ac6 extends Activity implements View.OnClickListener
 		super.onCreate(savedInstanceState);
 		w2=getWindowManager().getDefaultDisplay().getWidth();
 		c=(ClipboardManager)getSystemService(CLIPBOARD_SERVICE);
-		RelativeLayout r=new RelativeLayout(this);setContentView(r);
-		LinearLayout l=new LinearLayout(this);r.addView(l);l.setOrientation(LinearLayout.VERTICAL);
+		setContentView(r=new RelativeLayout(this));
+		LinearLayout l=new LinearLayout(this);r.addView(l,-1,-2);l.setOrientation(LinearLayout.VERTICAL);
 		LinearLayout l2=new LinearLayout(this);l.addView(l2,new LinearLayout.LayoutParams(-1,w2/7));
 		LinearLayout.LayoutParams p=new LinearLayout.LayoutParams(0,-2,1),p3=new LinearLayout.LayoutParams(0,-1,1);
 		l2.addView(t=new TextView(this),new LinearLayout.LayoutParams(0,-1,5));t.setGravity(Gravity.CENTER);
 		l2.addView(b7=new Button(this),p3);b7.setText("复制链接");b7.setOnClickListener(this);
 		l2.addView(b8=new Button(this),p3);b8.setText("刷新");b8.setOnClickListener(this);
-		l2=new LinearLayout(this);l.addView(l2);
-		l2.addView(e=new EditText(this),new LinearLayout.LayoutParams(0,-2,6));
+		l.addView(l2=new LinearLayout(this));
+		l2.addView(e=new EditText(this),new LinearLayout.LayoutParams(0,-2,5));
 		e.setSingleLine();
 		//当,在输入框内按下换行符时，执行自定义的代码
 		e.setOnEditorActionListener(new TextView.OnEditorActionListener()
@@ -86,15 +91,17 @@ public class ac6 extends Activity implements View.OnClickListener
 			}
 		});
 		l2.addView(b=new Button(this),p);b.setText("浏览");b.setOnClickListener(this);
-		l.addView(w=new WebView(this));
+		l2.addView(b14=new Button(this),p);b14.setOnClickListener(this);
 		RelativeLayout.LayoutParams p2=new RelativeLayout.LayoutParams(-1,-2);p2.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
 		LinearLayout l3=new LinearLayout(this);r.addView(l3,p2);
 		l3.addView(b2=new Button(this),p);b2.setText("<");b2.setOnClickListener(this);
 		l3.addView(b3=new Button(this),p);b3.setText(">");b3.setOnClickListener(this);
 		l3.addView(b4=new Button(this),p);b4.setText("主页");b4.setOnClickListener(this);
-		l3.addView(b5=new Button(this),p);b5.setText("1");b5.setOnClickListener(this);
+		l3.addView(b5=new Button(this),p);b5.setText("");b5.setOnClickListener(this);
 		l3.addView(b6=new Button(this),p);b6.setText("其他");b6.setOnClickListener(this);
-		RelativeLayout.LayoutParams p4=new RelativeLayout.LayoutParams(-1,-2);int i=1;l3.setId(i);p4.addRule(RelativeLayout.ABOVE,1);
+		p6=new RelativeLayout.LayoutParams(-1,-2);int i=1;l3.setId(i);p6.addRule(RelativeLayout.ABOVE,1);
+		l.setId(i=2);p6.addRule(RelativeLayout.BELOW,2);
+		RelativeLayout.LayoutParams p4=new RelativeLayout.LayoutParams(-1,-2);p4.addRule(RelativeLayout.ABOVE,1);
 		r.addView(l8=l4=new LinearLayout(this),p4);l4.setVisibility(View.INVISIBLE);
 		l4.addView(b9=new Button(this),p);b9.setText("页内查找");b9.setOnClickListener(this);
 		r.addView(l5=new LinearLayout(this),p4);l5.setVisibility(View.INVISIBLE);
@@ -102,9 +109,13 @@ public class ac6 extends Activity implements View.OnClickListener
 		l5.addView(b10=new Button(this),new LinearLayout.LayoutParams(0,-2,1.5f));b10.setText("查找");b10.setOnClickListener(this);
 		l5.addView(b11=new Button(this),p);b11.setText("<");b11.setOnClickListener(this);
 		l5.addView(b12=new Button(this),p);b12.setText(">");b12.setOnClickListener(this);
-		r.addView(b13=new Button(this),p4);b13.setText("+");b13.setOnClickListener(this);b13.setVisibility(View.INVISIBLE);
-		RelativeLayout.LayoutParams p5=new RelativeLayout.LayoutParams(-1,-2);b13.setId(i=2);p5.addRule(RelativeLayout.ABOVE,2);
-		r.addView(l6=new ListView(this));l7.add(w);l6.setAdapter(a=new ba(this));l6.setVisibility(View.INVISIBLE);
+		RelativeLayout.LayoutParams p7=new RelativeLayout.LayoutParams(-1,-2);p7.addRule(RelativeLayout.BELOW,2);
+		r.addView(l9=new LinearLayout(this),p7);l9.setOrientation(LinearLayout.VERTICAL);l9.setVisibility(View.INVISIBLE);
+		l9.addView(b13=new Button(this));b13.setText("+");b13.setOnClickListener(this);
+		l9.addView(l6=new ListView(this));l6.setAdapter(a=new ba(this));
+		
+		
+		f();w.loadUrl("https://m.baidu.com/s?word=死神");
 		
 		
 		
@@ -114,10 +125,39 @@ public class ac6 extends Activity implements View.OnClickListener
 		
 		
 		
+		//		new Thread()
+//		{
+//			public void run()
+//			{try{
+//				for(;;Thread.sleep(3000))
+//				{
+//					h.sendEmptyMessage(1);
+//				}
+//			}catch(Exception e){e.printStackTrace();}}
+//		}.start();
 		
 		
 		
 		
+		
+		
+		
+		
+		
+		//w.loadData("<h1>123死神</h1>","","");
+		
+		
+		
+		
+		
+		
+		
+	}
+	void f()
+	{
+		//第2个参数为绘制View的顺序，0为最先绘制的（最底下的视图），所以必须把第2个参数设置为0才能使其他视图不被遮挡，记方法!!!!!!!!!!!!!
+		r.addView(w=new WebView(this),0,p6);
+		l7.add(0,w);a.notifyDataSetChanged();b5.setText(l7.size()+"");b14.setText(l7.size()+"");
 		WebSettings s=w.getSettings();
 		//设置允许网页运行JavaScript，必须加这个，小心!!!!!!!!!!!!!
 		s.setJavaScriptEnabled(true);
@@ -133,19 +173,36 @@ public class ac6 extends Activity implements View.OnClickListener
 		s.setDefaultTextEncodingName("utf8");
 		//设置使用WebView加载网页，而不是打开默认浏览器再加载网页
 		w.setWebViewClient(new WebViewClient());
+		w.loadUrl("https://www.baidu.com");
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		w.setWebChromeClient(new WebChromeClient()
 		{
 			//当页面改变时，只有onProgressChanged()一定会自动调用，会自动调用>=1次
 			public void onProgressChanged(WebView w,int i)
 			{
+				t.setText(URLDecoder.decode(w.getUrl()));a.notifyDataSetChanged();
+				
+				
+				
 				//System.out.println("onProgressChanged："+i+"："+URLDecoder.decode(w.getUrl()));
 //				System.out.println("onProgressChanged："+i+"："+w.getTitle());
-				t.setText(URLDecoder.decode(w.getUrl()));
+			
 			}
 			public void onReceivedTitle(WebView view,String s)
 			{
 //				System.out.println("onReceivedTitle："+s);
-				
+			
 			}
 		});
 		
@@ -154,41 +211,12 @@ public class ac6 extends Activity implements View.OnClickListener
 		
 		
 		
-		
-		
-		
-		
-		
-//		new Thread()
-//		{
-//			public void run()
-//			{try{
-//				for(;;Thread.sleep(3000))
-//				{
-//					h.sendEmptyMessage(1);
-//				}
-//			}catch(Exception e){e.printStackTrace();}}
-//		}.start();
-			
-			
-			
-			
-			
-			
-		//ListView l3=new ListView(this);
-		
-		
-		
-		
-		
-		w.loadUrl("https://m.baidu.com/s?word=死神");
-		
-		
-		
-		
-		
-		
-		//w.loadData("<h1>123死神</h1>","","");
+		//使页面获得答焦点
+		w.requestFocus();
+		w.setVisibility(View.VISIBLE);
+		// 解决对某些标签的不支持出现白屏
+		s.setDomStorageEnabled(true);
+
 		
 		
 		
@@ -212,12 +240,12 @@ public class ac6 extends Activity implements View.OnClickListener
 		{
 			w.loadUrl("https://www.baidu.com");
 		}
-		else if(v==b5)
+		else if(v==b5||v==b14)
 		{
 			if(l8.getVisibility()==View.VISIBLE)l8.setVisibility(View.INVISIBLE);
 			else
 			{
-				l6.setVisibility(View.VISIBLE);l8=l6;
+				l9.setVisibility(View.VISIBLE);l8=l9;
 			}
 		}
 		else if(v==b6)
@@ -253,6 +281,11 @@ public class ac6 extends Activity implements View.OnClickListener
 		{
 			w.findNext(true);
 		}
+		else if(v==b13)
+		{
+			w.setVisibility(View.INVISIBLE);f();
+			l9.setVisibility(View.INVISIBLE);
+		}
 	}
 	class ba extends BaseAdapter
 	{
@@ -269,15 +302,20 @@ public class ac6 extends Activity implements View.OnClickListener
 				b=new Button(c);
 			}
 			final WebView w2=l7.get(i);
-			if(w2==w)b.setBackgroundColor(0x77ff0000);
-			else b.setBackgroundColor(0xffffffff);
-			b.setText(w2.getUrl());
+			if(w2==w)b.setBackgroundColor(0xffff7777);
+			else b.setBackgroundColor(0xffcccccc);
+			b.setText(URLDecoder.decode(w2.getUrl()));
 			b.setOnClickListener(new View.OnClickListener()
 			{
 				public void onClick(View v)
 				{try{
-					w.setVisibility(View.INVISIBLE);
-					w2.setVisibility(View.VISIBLE);
+					if(w2!=w)
+					{
+						w.setVisibility(View.INVISIBLE);w=w2;
+						w.setVisibility(View.VISIBLE);
+						t.setText(URLDecoder.decode(w.getUrl()));a.notifyDataSetChanged();
+						l9.setVisibility(View.INVISIBLE);
+					}
 				}catch(Exception e){e.printStackTrace();}}
 			});
 			return b;

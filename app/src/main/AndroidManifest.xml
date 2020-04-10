@@ -32,7 +32,7 @@
 		<activity android:name="sy3"/>
 		<activity android:name="sy4"/>
 		<activity android:name="sy5"/>
-		<activity android:name="sy6"/>
+		<activity android:name="sy6" android:hardwareAccelerated="false"/>
 		<activity android:name="sy7"/>
 		<activity android:name="sy8"/>
 		<activity android:name="sy9"/>
