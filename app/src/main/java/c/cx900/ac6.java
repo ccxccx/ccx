@@ -58,7 +58,7 @@ public class ac6 extends Activity implements View.OnClickListener
 {
 	EditText e,e2;Button b,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12,b13,b14;WebView w;TextView t;
 	ClipboardManager c;int w2;LinearLayout l4,l5,l9;ListView l6;ba a;List<WebView>l7=new LinkedList<>();
-	View l8;RelativeLayout r;RelativeLayout.LayoutParams p6;
+	View l8;RelativeLayout r;RelativeLayout.LayoutParams p6;LinearLayout.LayoutParams p;
 	//	Handler h=new Handler()
 //	{
 //		public void handleMessage(Message m)
@@ -74,7 +74,7 @@ public class ac6 extends Activity implements View.OnClickListener
 		setContentView(r=new RelativeLayout(this));
 		LinearLayout l=new LinearLayout(this);r.addView(l,-1,-2);l.setOrientation(LinearLayout.VERTICAL);
 		LinearLayout l2=new LinearLayout(this);l.addView(l2,new LinearLayout.LayoutParams(-1,w2/7));
-		LinearLayout.LayoutParams p=new LinearLayout.LayoutParams(0,-2,1),p3=new LinearLayout.LayoutParams(0,-1,1);
+		p=new LinearLayout.LayoutParams(0,-2,1);LinearLayout.LayoutParams p3=new LinearLayout.LayoutParams(0,-1,1);
 		l2.addView(t=new TextView(this),new LinearLayout.LayoutParams(0,-1,5));t.setGravity(Gravity.CENTER);
 		l2.addView(b7=new Button(this),p3);b7.setText("复制链接");b7.setOnClickListener(this);
 		l2.addView(b8=new Button(this),p3);b8.setText("刷新");b8.setOnClickListener(this);
@@ -113,9 +113,8 @@ public class ac6 extends Activity implements View.OnClickListener
 		r.addView(l9=new LinearLayout(this),p7);l9.setOrientation(LinearLayout.VERTICAL);l9.setVisibility(View.INVISIBLE);
 		l9.addView(b13=new Button(this));b13.setText("+");b13.setOnClickListener(this);
 		l9.addView(l6=new ListView(this));l6.setAdapter(a=new ba(this));
-		
-		
 		f();w.loadUrl("https://m.baidu.com/s?word=死神");
+		
 		
 		
 		
@@ -211,11 +210,8 @@ public class ac6 extends Activity implements View.OnClickListener
 		
 		
 		
-		//使页面获得答焦点
-		w.requestFocus();
-		w.setVisibility(View.VISIBLE);
-		// 解决对某些标签的不支持出现白屏
-		s.setDomStorageEnabled(true);
+		
+		
 
 		
 		
@@ -294,18 +290,23 @@ public class ac6 extends Activity implements View.OnClickListener
 		public int getCount(){return l7.size();}
 		public Object getItem(int position){return null;}
 		public long getItemId(int position){return 0;}
-		public View getView(int i,View v,ViewGroup g)
+		class i{Button b,b2;i(Button a,Button c){b=a;b2=c;}}
+		public View getView(final int i,View v,ViewGroup g)
 		{
-			Button b=(Button)v;
-			if(b==null)
+			i a;LinearLayout l=(LinearLayout)v;
+			if(l==null)
 			{
-				b=new Button(c);
+				l=new LinearLayout(c);
+				l.setTag(a=new i(new Button(c),new Button(c)));
+				l.addView(a.b,new LinearLayout.LayoutParams(0,-2,7));
+				l.addView(a.b2,p);a.b2.setText("✕");
 			}
+			else a=(i)l.getTag();
 			final WebView w2=l7.get(i);
-			if(w2==w)b.setBackgroundColor(0xffff7777);
-			else b.setBackgroundColor(0xffcccccc);
-			b.setText(URLDecoder.decode(w2.getUrl()));
-			b.setOnClickListener(new View.OnClickListener()
+			if(w2==w)l.setBackgroundColor(0xffff7777);
+			else l.setBackgroundColor(0xffcccccc);
+			a.b.setText(URLDecoder.decode(w2.getUrl()));
+			a.b.setOnClickListener(new View.OnClickListener()
 			{
 				public void onClick(View v)
 				{try{
@@ -313,12 +314,31 @@ public class ac6 extends Activity implements View.OnClickListener
 					{
 						w.setVisibility(View.INVISIBLE);w=w2;
 						w.setVisibility(View.VISIBLE);
-						t.setText(URLDecoder.decode(w.getUrl()));a.notifyDataSetChanged();
-						l9.setVisibility(View.INVISIBLE);
+						t.setText(URLDecoder.decode(w.getUrl()));notifyDataSetChanged();
+					}
+					l9.setVisibility(View.INVISIBLE);
+				}catch(Exception e){e.printStackTrace();}}
+			});
+			a.b2.setOnClickListener(new View.OnClickListener()
+			{
+				public void onClick(View v)
+				{try{
+					if(l7.size()==1)
+					{
+						Toast.makeText(c,"最后1个不能删除！",Toast.LENGTH_SHORT).show();
+					}
+					else
+					{
+						if(w2==w)
+						{
+							w=l7.get(i==l7.size()-1?i-1:i+1);
+							w.setVisibility(View.VISIBLE);
+						}
+						l7.remove(w2);r.removeView(w2);notifyDataSetChanged();b5.setText(l7.size()+"");b14.setText(l7.size()+"");
 					}
 				}catch(Exception e){e.printStackTrace();}}
 			});
-			return b;
+			return l;
 		}
 	}
 }

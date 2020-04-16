@@ -70,7 +70,7 @@ public class ac3 extends Activity implements View.OnClickListener
 	
 	NotificationManager m2;Notification n;RemoteViews r3;
 	
-	SQLiteDatabase db;
+	SQLiteDatabase db;BroadcastReceiver r4;
 	public void onBackPressed()
 	{
 		finish();
@@ -78,6 +78,7 @@ public class ac3 extends Activity implements View.OnClickListener
 		m.release();
 		//清除通知
 		m2.cancel(1);
+		unregisterReceiver(r4);
 	}
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -138,7 +139,7 @@ public class ac3 extends Activity implements View.OnClickListener
 		String s="ccx";
 		m2=(NotificationManager)getSystemService(NOTIFICATION_SERVICE);
 		//注册按键的广播的接收器
-		registerReceiver(new BroadcastReceiver()
+		registerReceiver(r4=new BroadcastReceiver()
 		{
 			public void onReceive(Context c,Intent i)
 			{
