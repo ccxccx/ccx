@@ -1,13 +1,21 @@
 package c.cx900;
-import android.widget.*;
-import android.app.*;
-import android.os.*;
+import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.media.AudioManager;
+import android.os.Bundle;
+
 public class sy7 extends Activity
 {
-	protected void onCreate(Bundle bu)
+	protected void onCreate(Bundle savedInstanceState)
 	{
-		super.onCreate(bu);LinearLayout l=new LinearLayout(this);
-		setContentView(l);l.setOrientation(LinearLayout.VERTICAL);
+		super.onCreate(savedInstanceState);
+		AudioManager m=(AudioManager)getSystemService(AUDIO_SERVICE);
+		m.registerMediaButtonEventReceiver(new ComponentName(this,sy8.class));
 		
 	}
 }

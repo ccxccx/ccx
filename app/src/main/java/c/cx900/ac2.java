@@ -20,7 +20,7 @@ import java.util.*;
 public class ac2 extends Activity implements View.OnClickListener
 {
 	List<String>l=new ArrayList<>(),l2,l6;TreeSet<Integer>h=new TreeSet<>();
-	TextView t,t2;int j,w,n,n2,d,i3;ba a;Button b,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12,b13,b14;
+	TextView t,t2;int j,w,n,n2,d,i3;ba a;Button b,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12,b13,b14,b15,b16;
 	LinearLayout l3,l4,l5,l7,l8,l10;boolean d2;String f2,f3,f4,s2;EditText e,e2;GridView g;
 	ImageView i2;static String f;ListView l11;ba2 a2;List<String>l12=new LinkedList<>();
 	LinearLayout.LayoutParams p;
@@ -41,7 +41,7 @@ public class ac2 extends Activity implements View.OnClickListener
 		r.addView(t=new TextView(this),-1,-2);t.setGravity(Gravity.CENTER);
 		RelativeLayout.LayoutParams p6=new RelativeLayout.LayoutParams(-1,-2);p6.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
 		r.addView(b12=new Button(this),p6);b12.setText("<");b12.setOnClickListener(this);
-		RelativeLayout.LayoutParams p4=new RelativeLayout.LayoutParams(-1,-2);int i=1;t.setId(i);p4.addRule(RelativeLayout.BELOW,1);
+		RelativeLayout.LayoutParams p4=new RelativeLayout.LayoutParams(-1,-2);int i;t.setId(i=1);p4.addRule(RelativeLayout.BELOW,1);
 		r.addView(l8=new LinearLayout(this),p4);
 		p=new LinearLayout.LayoutParams(0,-2,1);
 		l8.addView(b9=new Button(this),p);b9.setText("新建文件");b9.setOnClickListener(this);
@@ -67,7 +67,7 @@ public class ac2 extends Activity implements View.OnClickListener
 		l7.setId(i=4);p8.addRule(RelativeLayout.BELOW,4);b12.setId(i=2);p8.addRule(RelativeLayout.ABOVE,2);
 		r.addView(g=new GridView(this),p8);g.setAdapter(a=new ba(this));g.setNumColumns(5);
 		RelativeLayout.LayoutParams p5=new RelativeLayout.LayoutParams(-1,-1);p5.addRule(RelativeLayout.BELOW,1);p5.addRule(RelativeLayout.ABOVE,2);
-		r.addView(e2=new EditText(this),p5);e2.setVisibility(View.INVISIBLE);e2.setGravity(Gravity.TOP);
+		r.addView(e2=new EditText(this),p5);e2.setVisibility(View.INVISIBLE);e2.setGravity(Gravity.TOP);e2.setBackgroundColor(0xffffffff);
 		r.addView(i2=new ImageView(this),p5);i2.setVisibility(View.INVISIBLE);
 		RelativeLayout.LayoutParams p2=new RelativeLayout.LayoutParams(-1,-2);p2.addRule(RelativeLayout.ABOVE,2);
 		l3=new LinearLayout(this);r.addView(l3,p2);
@@ -84,7 +84,9 @@ public class ac2 extends Activity implements View.OnClickListener
 		p3.addRule(RelativeLayout.BELOW,1);
 		r.addView(l5=new LinearLayout(this),p3);l5.setVisibility(View.INVISIBLE);
 		l5.addView(b7=new Button(this),p);b7.setText("全选");b7.setOnClickListener(this);
+		l5.addView(b15=new Button(this),p);b15.setText("全不选");b15.setOnClickListener(this);
 		l5.addView(b8=new Button(this),p);b8.setText("区间选择");b8.setOnClickListener(this);
+		l5.addView(b16=new Button(this),p);b16.setText("反选");b16.setOnClickListener(this);
 		RelativeLayout.LayoutParams p7=new RelativeLayout.LayoutParams(-1,-2);p7.addRule(RelativeLayout.BELOW,3);
 		r.addView(l10=new LinearLayout(this),p7);l10.setOrientation(LinearLayout.VERTICAL);l10.setVisibility(View.INVISIBLE);
 		l10.addView(b14=new Button(this));b14.setText("+");b14.setOnClickListener(this);
@@ -172,6 +174,12 @@ public class ac2 extends Activity implements View.OnClickListener
 							for(int i:h)d(new File(f+l.get(i)));
 							f(f3);b();
 						}
+					}).setNegativeButton("取消",new DialogInterface.OnClickListener()
+					{
+						public void onClick(DialogInterface dialog,int which)
+						{
+							b();
+						}
 					}).show();
 		}
 		else if(v==b4)
@@ -199,6 +207,12 @@ public class ac2 extends Activity implements View.OnClickListener
 								}
 								b();
 							}
+						}).setNegativeButton("取消",new DialogInterface.OnClickListener()
+						{
+							public void onClick(DialogInterface dialog,int which)
+							{
+								b();
+							}
 						}).show();
 			}
 			else
@@ -219,6 +233,12 @@ public class ac2 extends Activity implements View.OnClickListener
 									new File(f+s).renameTo(new File(f+e.getText()+ ++j+(k==-1?"":s.substring(k))));
 								}
 								f(f2.getParent());b();
+							}
+						}).setNegativeButton("取消",new DialogInterface.OnClickListener()
+						{
+							public void onClick(DialogInterface dialog,int which)
+							{
+								b();
 							}
 						}).show();
 			}
@@ -248,20 +268,15 @@ public class ac2 extends Activity implements View.OnClickListener
 		}
 		else if(v==b7)
 		{
-			if(b7.getText().equals("全选"))
-			{
-				b7.setText("全不选");
-				for(int i=0;i<l.size();i++)h.add(i);
-				b.setEnabled(true);b2.setEnabled(true);b3.setEnabled(true);b4.setEnabled(true);
-				a.notifyDataSetChanged();
-			}
-			else
-			{
-				b7.setText("全选");
-				h.clear();
-				b.setEnabled(false);b2.setEnabled(false);b3.setEnabled(false);b4.setEnabled(false);
-				a.notifyDataSetChanged();
-			}
+			for(int i=0;i<l.size();i++)h.add(i);
+			b.setEnabled(true);b2.setEnabled(true);b3.setEnabled(true);b4.setEnabled(true);
+			a.notifyDataSetChanged();
+		}
+		else if(v==b15)
+		{
+			h.clear();
+			b.setEnabled(false);b2.setEnabled(false);b3.setEnabled(false);b4.setEnabled(false);
+			a.notifyDataSetChanged();
 		}
 		else if(v==b8)
 		{
@@ -320,6 +335,14 @@ public class ac2 extends Activity implements View.OnClickListener
 			l12.add(i3=0,f4);f(f4);a2.notifyDataSetChanged();b13.setText(l12.size()+"");
 			l10.setVisibility(View.INVISIBLE);
 		}
+		else if(v==b16)
+		{
+			TreeSet<Integer>t=h;h=new TreeSet<>();
+			for(int i=0;i<l.size();i++)if(!t.contains(i))h.add(i);
+			if(h.isEmpty()){b.setEnabled(false);b2.setEnabled(false);b3.setEnabled(false);b4.setEnabled(false);}
+			else{b.setEnabled(true);b2.setEnabled(true);b3.setEnabled(true);b4.setEnabled(true);}
+			a.notifyDataSetChanged();
+		}
 	}
 	void b()
 	{
@@ -364,7 +387,7 @@ public class ac2 extends Activity implements View.OnClickListener
 		else if(d==3)
 		{
 			d=0;f(new File(f3).getParent());
-			i2.setVisibility(View.INVISIBLE);l7.setVisibility(View.VISIBLE);l8.setVisibility(View.VISIBLE);
+			i2.setVisibility(View.INVISIBLE);l7.setVisibility(View.VISIBLE);l8.setVisibility(View.VISIBLE);g.setVisibility(View.VISIBLE);
 		}
 	}
 	//删除文件和文件夹
@@ -413,12 +436,12 @@ public class ac2 extends Activity implements View.OnClickListener
 				String u=i==-1?"":f.getName().substring(i+1);
 				if(u.equals("")||u.equals("txt"))
 				{
-					t.setText(s);l7.setVisibility(View.INVISIBLE);l8.setVisibility(View.INVISIBLE);
+					t.setText(f3=s);l7.setVisibility(View.INVISIBLE);l8.setVisibility(View.INVISIBLE);
 					d=2;e2.setText(s2=f2s(s));e2.setVisibility(View.VISIBLE);
 				}
 				else if(u.equals("png")||u.equals("jpg")||u.equals("bmp"))
 				{
-					t.setText(s);l7.setVisibility(View.INVISIBLE);l8.setVisibility(View.INVISIBLE);
+					t.setText(f3=s);l7.setVisibility(View.INVISIBLE);l8.setVisibility(View.INVISIBLE);g.setVisibility(View.INVISIBLE);
 					d=3;i2.setVisibility(View.VISIBLE);i2.setImageBitmap(BitmapFactory.decodeFile(s));
 				}
 				else if(u.equals("mp3"))

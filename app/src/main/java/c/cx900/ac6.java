@@ -113,7 +113,13 @@ public class ac6 extends Activity implements View.OnClickListener
 		r.addView(l9=new LinearLayout(this),p7);l9.setOrientation(LinearLayout.VERTICAL);l9.setVisibility(View.INVISIBLE);
 		l9.addView(b13=new Button(this));b13.setText("+");b13.setOnClickListener(this);
 		l9.addView(l6=new ListView(this));l6.setAdapter(a=new ba(this));
-		f();w.loadUrl("https://m.baidu.com/s?word=死神");
+		f();
+		
+		
+		
+		
+		
+		
 		
 		
 		
@@ -150,6 +156,13 @@ public class ac6 extends Activity implements View.OnClickListener
 		
 		
 		
+//		w.loadUrl("https://m.baidu.com/s?word=死神");
+	
+	
+	
+	
+	
+	
 		
 	}
 	void f()
@@ -172,7 +185,7 @@ public class ac6 extends Activity implements View.OnClickListener
 		s.setDefaultTextEncodingName("utf8");
 		//设置使用WebView加载网页，而不是打开默认浏览器再加载网页
 		w.setWebViewClient(new WebViewClient());
-		w.loadUrl("https://www.baidu.com");
+		w.loadUrl("https://m.baidu.com");
 		
 		
 		
@@ -234,7 +247,7 @@ public class ac6 extends Activity implements View.OnClickListener
 		}
 		else if(v==b4)
 		{
-			w.loadUrl("https://www.baidu.com");
+			w.loadUrl("https://m.baidu.com");
 		}
 		else if(v==b5||v==b14)
 		{

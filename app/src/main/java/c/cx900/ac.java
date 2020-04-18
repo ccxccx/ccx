@@ -29,7 +29,7 @@ public class ac extends Activity
 		
 		
 		//startActivity(new Intent(this,ac10.class));
-		//startActivity(new Intent(this,sy.class));
+		//startActivity(new Intent(this,sy7.class));
 		//startActivity(new Intent(this,ac5.class).setData(Uri.parse("file:///storage/emulated/0/0/1.mp4")));
 		//startActivity(new Intent(this,ac10.class).setData(Uri.parse("file:///storage/emulated/0/00/0.mp3")));
 	}

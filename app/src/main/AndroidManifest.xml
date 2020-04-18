@@ -39,6 +39,8 @@
 		<activity android:name="sy10"/>
 
 
+
+
         <activity android:name="ac2"/>
         <activity android:name="ac3"/>
         <activity android:name="ac4"/>
@@ -91,5 +93,10 @@
 					android:name="android.support.FILE_PROVIDER_PATHS"
 					android:resource="@xml/file_paths"/>
 		</provider>
+		<receiver android:name="re">
+			<intent-filter>
+				<action android:name="android.intent.action.MEDIA_BUTTON"/>
+			</intent-filter>
+		</receiver>
 	</application>
 </manifest>

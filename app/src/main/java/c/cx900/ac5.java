@@ -172,7 +172,7 @@ public class ac5 extends Activity
 					f2+=60*y/h;f2=f2<0?0:f2>m?m:f2;
 					int i=(int)f2;
 					a.setStreamVolume(AudioManager.STREAM_MUSIC,i,AudioManager.FLAG_PLAY_SOUND);
-					t3.setText("声音："+i+"/"+m);
+					t3.setText("音量："+i+"/"+m);
 				}
 				return true;
 			}

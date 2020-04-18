@@ -1,7 +1,8 @@
-//测试^，√，π，sin，cos，tan，asin，acos，atan
+//测试：计算包含^，√，π，sin，cos，tan，asin，acos，atan的表达式
 a=4^5;b=√9;c=[3]√8;c2=3√4;d=sin(π/6)
 e=cos(π);f=tan(π/4);g=asin(1);h=acos(0.5);i=atan(√3)
 /*
+正确的结果为：
 a=1024.0
 b=3.0
 c=2.0

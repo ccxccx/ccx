@@ -1,13 +1,17 @@
 package c.cx900;
-import android.widget.*;
-import android.app.*;
-import android.os.*;
-public class sy8 extends Activity
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
+import android.view.KeyEvent;
+import android.widget.Toast;
+
+public class sy8 extends BroadcastReceiver
 {
-	protected void onCreate(Bundle bu)
+	public void onReceive(Context context,Intent intent)
 	{
-		super.onCreate(bu);LinearLayout l=new LinearLayout(this);
-		setContentView(l);l.setOrientation(LinearLayout.VERTICAL);
+		
+		if(((KeyEvent)intent.getParcelableExtra(Intent.EXTRA_KEY_EVENT)).getAction()==KeyEvent.ACTION_DOWN)System.out.println("123456");
 		
 	}
 }

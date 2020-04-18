@@ -8,6 +8,7 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -21,6 +22,7 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
+import android.media.AudioManager;
 import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -77,8 +79,8 @@ public class ac10 extends Activity implements View.OnClickListener
 {
 	List<String[]>l;List<Integer>l4;
 	ListView l3,l10;byte[]d;int w;
-	Button b,b2,b3,b4,b5,b6,b7,b8;
-	ba a2;Bitmap b0;MediaPlayer m=new MediaPlayer();
+	Button b,b3,b4,b5,b6,b7,b8;
+	ba a2;Bitmap b0;static MediaPlayer m;
 	TextView t,t2;TextView t4;
 	SeekBar s;Thread t3=new Thread();
 	
@@ -86,11 +88,11 @@ public class ac10 extends Activity implements View.OnClickListener
 	MediaMetadataRetriever r2=new MediaMetadataRetriever();
 	ImageView i2;
 	
-	NotificationManager m2;Notification n;RemoteViews r3;
+	static NotificationManager m2;static Notification n;static RemoteViews r3;
 	
 	static List<String>a;static int j;List<String>a4;BroadcastReceiver r4;
 	
-	LinearLayout.LayoutParams p;ba2 a3;List<j>l11=new LinkedList<>();AlertDialog d2;j k;
+	LinearLayout.LayoutParams p;ba2 a3;List<j>l11=new LinkedList<>();AlertDialog d2;j k;static Button b2;
 	public void onBackPressed()
 	{
 		finish();
@@ -109,7 +111,7 @@ public class ac10 extends Activity implements View.OnClickListener
 	}
 	public void onRequestPermissionsResult(int requestCode,String[]permissions,int[]grantResults)
 	{try{
-		w=getWindowManager().getDefaultDisplay().getWidth();
+		w=getWindowManager().getDefaultDisplay().getWidth();m=new MediaPlayer();
 		RelativeLayout r=new RelativeLayout(this);setContentView(r);
 		RelativeLayout.LayoutParams p3=new RelativeLayout.LayoutParams(-1,-2);p3.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
 		LinearLayout l5=new LinearLayout(this);r.addView(l5,p3);
@@ -136,7 +138,7 @@ public class ac10 extends Activity implements View.OnClickListener
 		l6.addView(b2=new Button(this),p);b2.setText("暂停");b2.setOnClickListener(this);
 		l6.addView(b3=new Button(this),p);b3.setText("下一首");b3.setOnClickListener(this);
 		LinearLayout l9=new LinearLayout(this);r.addView(l9,-1,-2);
-		l9.addView(b5=new Button(this),p);b5.setText("歌曲详情页");b5.setOnClickListener(this);
+		l9.addView(b5=new Button(this),p);b5.setText("音乐详情页");b5.setOnClickListener(this);
 		l9.addView(b4=new Button(this),p);b4.setOnClickListener(this);
 		RelativeLayout.LayoutParams p5=new RelativeLayout.LayoutParams(-1,-2);int i=3;l9.setId(i);p5.addRule(RelativeLayout.BELOW,3);
 		l9=new LinearLayout(this);r.addView(l9,p5);
@@ -200,47 +202,48 @@ public class ac10 extends Activity implements View.OnClickListener
 		if(!new File(getFilesDir()+"/1.txt").exists())
 		{
 			l11=new ArrayList<>();l11.add(k=new j("默认的播放列表",l=new ArrayList<>(),l4=new ArrayList<>(),j=0));
+			ObjectOutputStream o=new ObjectOutputStream(new FileOutputStream(getFilesDir()+"/1.txt"));
+			o.writeObject(l11);o.writeObject(l);o.writeObject(l4);o.writeInt(j);
+			o.close();
 		}
-		else
+		ObjectInputStream in=new ObjectInputStream(new FileInputStream(getFilesDir()+"/1.txt"));
+		l11=(List<j>)in.readObject();
+		Uri u=getIntent().getData();
+		if(u!=null||a!=null)
 		{
-			ObjectInputStream in=new ObjectInputStream(new FileInputStream(getFilesDir()+"/1.txt"));
-			l11=(List<j>)in.readObject();
-			Uri u=getIntent().getData();
-			if(u!=null||a!=null)
+			if(u!=null)
 			{
-				if(u!=null)
-				{
-					a4=new ArrayList<>();a4.add(u.getPath());j=0;
-				}
-				else
-				{
-					a4=a;a=null;
-				}
-				l=new ArrayList<>();l4=new ArrayList<>();
-				for(String t:a4)
-				{
-					r2.setDataSource(t);
-					l4.add(i=new Integer(r2.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION))/1000);
-					s=r2.extractMetadata(MediaMetadataRetriever.METADATA_KEY_TITLE);
-					if(s==null)s=new File(t).getName();
-					l.add(new String[]{s,r2.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ARTIST)
-							,String.format("%02d:%02d",i/60,i%60),r2.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ALBUM),t});
-				}
-				k=l11.get(l11.size()-1);k.l=l;k.l2=l4;k.j=j;
+				a4=new ArrayList<>();a4.add(u.getPath());j=0;
 			}
 			else
 			{
-				l=(List<String[]>)in.readObject();l4=(List<Integer>)in.readObject();j=in.readInt();
-				for(j k2:l11)if(k2.l==l){k=k2;break;}
+				a4=a;a=null;
 			}
-			in.close();
+			l=new ArrayList<>();l4=new ArrayList<>();
+			for(String t:a4)
+			{
+				r2.setDataSource(t);
+				l4.add(i=new Integer(r2.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION))/1000);
+				s=r2.extractMetadata(MediaMetadataRetriever.METADATA_KEY_TITLE);
+				if(s==null)s=new File(t).getName();
+				l.add(new String[]{s,r2.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ARTIST)
+						,String.format("%02d:%02d",i/60,i%60),r2.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ALBUM),t});
+			}
+			k=l11.get(l11.size()-1);k.l=l;k.l2=l4;k.j=j;
 		}
+		else
+		{
+			l=(List<String[]>)in.readObject();l4=(List<Integer>)in.readObject();j=in.readInt();
+			for(j k2:l11)if(k2.l==l){k=k2;break;}
+		}
+		in.close();
 		l3.setAdapter(a2=new ba(this));
 		onClick(b4);
 		RelativeLayout.LayoutParams p4=new RelativeLayout.LayoutParams(-1,-2);p4.addRule(RelativeLayout.BELOW,2);
 		r.addView(l2=new LinearLayout(this),p4);l2.setOrientation(LinearLayout.VERTICAL);l2.setVisibility(View.INVISIBLE);
 		l2.addView(l10=new ListView(this));l10.setAdapter(a3=new ba2(this));
-		
+		AudioManager m=(AudioManager)getSystemService(AUDIO_SERVICE);
+		m.registerMediaButtonEventReceiver(new ComponentName(this,re.class));
 		
 		
 		
@@ -261,7 +264,7 @@ public class ac10 extends Activity implements View.OnClickListener
 		
 		
 		//j=1251;
-		f();b6.setText(l11.size()+"");b4.setText("默认的播放列表");
+		f();b6.setText(l11.size()+"");b4.setText(k.s);
 		if(!NotificationManagerCompat.from(this).areNotificationsEnabled())
 		{
 			AlertDialog.Builder a=new AlertDialog.Builder(this).setMessage("请打开通知权限！")
@@ -294,17 +297,6 @@ public class ac10 extends Activity implements View.OnClickListener
 		
 		
 	}catch(Exception e){e.printStackTrace();}}
-	public boolean onKeyDown(int i,KeyEvent event)
-	{
-		//System.out.println(i);
-		//79=KEYCODE_HEADSETHOOK，为耳机上的按键
-		if(i==79)
-		{
-			onClick(b2);
-			return true;
-		}
-		return super.onKeyDown(i,event);
-	}
 	protected void onPause()
 	{try{
 		super.onPause();
@@ -327,6 +319,22 @@ public class ac10 extends Activity implements View.OnClickListener
 		p.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
 		c.drawBitmap(b,null,new Rect(0,0,i,i),p);return o;
 	}
+	static void b2()
+	{
+		if(b2.getText().equals("暂停"))
+		{
+			b2.setText("播放");
+			r3.setTextViewText(R.id.b2,"播放");
+			m.pause();
+		}
+		else
+		{
+			b2.setText("暂停");
+			r3.setTextViewText(R.id.b2,"暂停");
+			m.start();
+		}
+		m2.notify(1,n);
+	}
 	public void onClick(View v)
 	{try{
 		int i=l.size();
@@ -337,19 +345,7 @@ public class ac10 extends Activity implements View.OnClickListener
 		}
 		else if(v==b2)
 		{
-			if(b2.getText().equals("暂停"))
-			{
-				b2.setText("播放");
-				r3.setTextViewText(R.id.b2,"播放");
-				m.pause();
-			}
-			else
-			{
-				b2.setText("暂停");
-				r3.setTextViewText(R.id.b2,"暂停");
-				m.start();
-			}
-			m2.notify(1,n);
+			b2();
 		}
 		else if(v==b3)
 		{
@@ -428,7 +424,7 @@ public class ac10 extends Activity implements View.OnClickListener
 		d=r2.getEmbeddedPicture();
 		Bitmap b=d!=null?b2o(BitmapFactory.decodeByteArray(d,0,d.length)):b0;
 		i2.setImageBitmap(b);
-		t4.setText("歌名："+t[0]+"\n歌手："+t[1]+"\n专辑名："+t[3]);
+		t4.setText("音乐名："+t[0]+"\n作者："+t[1]+"\n专辑名："+t[3]);
 		r3.setImageViewBitmap(R.id.i,b);
 		r3.setTextViewText(R.id.t,t[0]);
 		r3.setTextViewText(R.id.t2,t[1]);
