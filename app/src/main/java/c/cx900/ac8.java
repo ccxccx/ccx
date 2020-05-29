@@ -456,6 +456,7 @@ public class ac8 extends Activity
 				//ii→ii D ( id ) i2 ( bool )//∫ [ bool , bool ] i1 w0 ii
 				else if(k==72)
 				{
+					//这里用的参数是高斯-勒让德求积公式中n=5时的系数，可以比较准确的计算出"次方数（幂次数）<=11的多项式"的小区间积分
 					double i1=y.get(j-10).v,d3;
 					if(i1==5||i1==4)d3=0.1713245;
 					else if(i1==3||i1==2)d3=0.3607616;

@@ -159,7 +159,7 @@ public class ac3 extends Activity implements View.OnClickListener
 		else b=new Notification.Builder(this);
 		//必须setSmallIcon()，否则会秒退，为啥？？？？？？？小心!!!!!!!!!!
 		b.setSmallIcon(R.drawable.i2)
-				//令通知显示到第1个位置
+				//将它设置成一个正在进行的通知
 				.setOngoing(true);
 		r3=new RemoteViews(getPackageName(),R.layout.l);
 		Intent i3=new Intent(s);

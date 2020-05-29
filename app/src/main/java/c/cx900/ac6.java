@@ -167,7 +167,7 @@ public class ac6 extends Activity implements View.OnClickListener
 	}
 	void f()
 	{
-		//第2个参数为绘制View的顺序，0为最先绘制的（最底下的视图），所以必须把第2个参数设置为0才能使其他视图不被遮挡，记方法!!!!!!!!!!!!!
+		//第2个参数为绘制View的顺序，0为最先绘制的视图（最底下的视图），所以必须把第2个参数设置为0才能使其他视图不被遮挡，记方法!!!!!!!!!!!!!
 		r.addView(w=new WebView(this),0,p6);
 		l7.add(0,w);a.notifyDataSetChanged();b5.setText(l7.size()+"");b14.setText(l7.size()+"");
 		WebSettings s=w.getSettings();

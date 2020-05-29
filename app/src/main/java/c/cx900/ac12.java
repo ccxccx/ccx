@@ -43,7 +43,7 @@ public class ac12 extends Activity implements View.OnClickListener
 			if("开始录屏".equals(b.getText()+""))
 			{
 				b.setText("停止录屏");b2.setVisibility(View.INVISIBLE);
-				startActivityForResult(((MediaProjectionManager)getSystemService(Context.MEDIA_PROJECTION_SERVICE)).createScreenCaptureIntent(),0);
+				startActivityForResult(((MediaProjectionManager)getSystemService(MEDIA_PROJECTION_SERVICE)).createScreenCaptureIntent(),0);
 			}
 			else
 			{

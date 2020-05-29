@@ -141,12 +141,12 @@ public class ac5 extends Activity
 					}
 					else
 					{
-						//当调整亮度时
+						//当调整亮度大小时
 						if(e.getX()<w/2)
 						{
 							f=2;f2=p.screenBrightness;
 						}
-						//当调整声音大小时
+						//当调整音量大小时
 						else
 						{
 							f=3;f2=a.getStreamVolume(AudioManager.STREAM_MUSIC);
@@ -159,14 +159,14 @@ public class ac5 extends Activity
 					f2-=150*x/w;f2=f2<0?0:f2>s.getMax()?s.getMax():f2;
 					t3.setText("当前位置："+t(s.getProgress())+"\n目标位置："+t((int)f2));
 				}
-				//当调整亮度时
+				//当调整亮度大小时
 				else if(f==2)
 				{
 					f2+=1.5f*y/h;p.screenBrightness=f2=f2<0?0:f2>1?1:f2;
 					w2.setAttributes(p);
 					t3.setText("亮度："+(int)(f2*100)+"%");
 				}
-				//当调整声音大小时
+				//当调整音量大小时
 				else if(f==3)
 				{
 					f2+=60*y/h;f2=f2<0?0:f2>m?m:f2;

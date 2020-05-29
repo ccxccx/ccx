@@ -20,11 +20,11 @@ import java.util.*;
 public class ac2 extends Activity implements View.OnClickListener
 {
 	List<String>l=new ArrayList<>(),l2,l6;TreeSet<Integer>h=new TreeSet<>();
-	TextView t,t2;int j,w,n,n2,d,i3;ba a;Button b,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12,b13,b14,b15,b16;
+	TextView t;int w,n,n2,d,i3;ba a;Button b,b2,b3,b4,b5,b6,b7,b8,b9,b10,b11,b12,b13,b14,b15,b16;
 	LinearLayout l3,l4,l5,l7,l8,l10;boolean d2;String f2,f3,f4,s2;EditText e,e2;GridView g;
 	ImageView i2;static String f;ListView l11;ba2 a2;List<String>l12=new LinkedList<>();
 	LinearLayout.LayoutParams p;
-	void t(String s){t2.setText(++j+"："+s);}
+	void t(String s){Toast.makeText(this,s,Toast.LENGTH_SHORT).show();}
 	protected void onCreate(Bundle bu)
 	{
 		super.onCreate(bu);
@@ -62,7 +62,6 @@ public class ac2 extends Activity implements View.OnClickListener
 			}
 		});
 		l9.addView(b11=new Button(this),p);b11.setText("搜索");b11.setOnClickListener(this);
-		l7.addView(t2=new TextView(this));t2.setGravity(Gravity.CENTER);t2.setTextColor(0xffff0000);
 		RelativeLayout.LayoutParams p8=new RelativeLayout.LayoutParams(-1,-2);
 		l7.setId(i=4);p8.addRule(RelativeLayout.BELOW,4);b12.setId(i=2);p8.addRule(RelativeLayout.ABOVE,2);
 		r.addView(g=new GridView(this),p8);g.setAdapter(a=new ba(this));g.setNumColumns(5);
@@ -166,7 +165,7 @@ public class ac2 extends Activity implements View.OnClickListener
 		else if(v==b3)
 		{
 			new AlertDialog.Builder(this).setTitle("您确定要删除这些文件吗？")
-					.setPositiveButton("确定",new DialogInterface.OnClickListener()
+					.setNegativeButton("确定",new DialogInterface.OnClickListener()
 					{
 						public void onClick(DialogInterface dialog,int which)
 						{
@@ -174,7 +173,7 @@ public class ac2 extends Activity implements View.OnClickListener
 							for(int i:h)d(new File(f+l.get(i)));
 							f(f3);b();
 						}
-					}).setNegativeButton("取消",new DialogInterface.OnClickListener()
+					}).setPositiveButton("取消",new DialogInterface.OnClickListener()
 					{
 						public void onClick(DialogInterface dialog,int which)
 						{
@@ -189,7 +188,7 @@ public class ac2 extends Activity implements View.OnClickListener
 				final String f=f3+"/",s=l.get(h.first());
 				final EditText e=new EditText(this);e.setText(s);
 				new AlertDialog.Builder(this).setTitle("请输入新文件名").setView(e)
-						.setPositiveButton("确定",new DialogInterface.OnClickListener()
+						.setNegativeButton("确定",new DialogInterface.OnClickListener()
 						{
 							public void onClick(DialogInterface dialog,int which)
 							{
@@ -207,7 +206,7 @@ public class ac2 extends Activity implements View.OnClickListener
 								}
 								b();
 							}
-						}).setNegativeButton("取消",new DialogInterface.OnClickListener()
+						}).setPositiveButton("取消",new DialogInterface.OnClickListener()
 						{
 							public void onClick(DialogInterface dialog,int which)
 							{
@@ -220,7 +219,7 @@ public class ac2 extends Activity implements View.OnClickListener
 				final EditText e=new EditText(this);e.setHint("请输入新文件名");
 				final String f=f3+"/";
 				new AlertDialog.Builder(this).setTitle("请输入新文件名").setView(e)
-						.setPositiveButton("确定",new DialogInterface.OnClickListener()
+						.setNegativeButton("确定",new DialogInterface.OnClickListener()
 						{
 							public void onClick(DialogInterface dialog,int which)
 							{
@@ -234,7 +233,7 @@ public class ac2 extends Activity implements View.OnClickListener
 								}
 								f(f2.getParent());b();
 							}
-						}).setNegativeButton("取消",new DialogInterface.OnClickListener()
+						}).setPositiveButton("取消",new DialogInterface.OnClickListener()
 						{
 							public void onClick(DialogInterface dialog,int which)
 							{
@@ -366,7 +365,7 @@ public class ac2 extends Activity implements View.OnClickListener
 			else
 			{
 				new AlertDialog.Builder(this).setTitle("是否保存？")
-						.setPositiveButton("是",new DialogInterface.OnClickListener()
+						.setNegativeButton("是",new DialogInterface.OnClickListener()
 						{
 							public void onClick(DialogInterface dialog,int which)
 							{
@@ -374,7 +373,7 @@ public class ac2 extends Activity implements View.OnClickListener
 								d=0;f(new File(f3).getParent());
 								e2.setVisibility(View.INVISIBLE);l7.setVisibility(View.VISIBLE);l8.setVisibility(View.VISIBLE);
 							}
-						}).setNegativeButton("否",new DialogInterface.OnClickListener()
+						}).setPositiveButton("否",new DialogInterface.OnClickListener()
 				{
 					public void onClick(DialogInterface dialog,int which)
 					{
@@ -576,7 +575,7 @@ public class ac2 extends Activity implements View.OnClickListener
 				{try{
 					if(l12.size()==1)
 					{
-						Toast.makeText(c,"最后1个不能删除！",Toast.LENGTH_SHORT).show();
+						t("最后1个不能删除！");
 					}
 					else
 					{
